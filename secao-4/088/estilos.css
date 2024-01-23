@@ -1,0 +1,9 @@
+/* folha de estilos de CSS3 */
+body {
+  padding: 20px;
+}
+
+p {
+  text-align: end;
+  direction: rtl;
+}
