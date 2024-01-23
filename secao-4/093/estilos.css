@@ -1,0 +1,21 @@
+/* folha de estilos de CSS3 */
+
+div {
+  margin: 10px;
+  height: 200px;
+  border: 1px solid black;
+}
+
+.espaco-1 {
+  background: linear-gradient(135deg, red, blue);
+}
+
+.espaco-2 {
+  background-image: url("images/fundo.jpg");
+  background-size: 100% 100%;
+}
+
+.espaco-3 {
+  background-image: url("images/outro_fundo.jpg");
+  background-repeat: repeat-x;
+}
