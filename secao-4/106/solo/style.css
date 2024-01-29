@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  color: white;
+  text-align: center;
+}
+
+header {
+  background-color: orange;
+  height: 10%;
+}
+
+div.container {
+  height: 80%;
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+}
+
+div.container > aside.left-sidebar {
+  background-color: blue;
+  width: 10%;
+}
+
+div.container > main {
+  background-color: blueviolet;
+  width: 80%;
+}
+
+div.container > aside.right-sidebar {
+  background-color: green;
+  width: 10%;
+}
+
+footer {
+  background-color: fuchsia;
+  height: 10%;
+}
