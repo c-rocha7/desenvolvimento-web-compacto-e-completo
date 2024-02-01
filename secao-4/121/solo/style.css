@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+div.wrapper {
+  height: 100vh;
+  background-color: white;
+}
+
+div.container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 30% 30% 30% auto;
+  grid-template-rows: 20% 15% auto 10%;
+  grid-template-areas:
+    "header header header header"
+    "text text text aside"
+    "content content content aside"
+    "footer footer footer footer";
+  grid-gap: 5px;
+}
+
+header {
+  grid-area: header;
+}
+
+section {
+  grid-area: text;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+article {
+  grid-area: article;
+}
+
+aside {
+  grid-area: aside;
+}
+
+footer {
+  grid-area: footer;
+}
