@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.wrapper {
+  height: 100vh;
+  background-color: white;
+}
+
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 20% auto;
+  grid-template-rows: 15% auto 10%;
+  grid-template-areas:
+    "header header"
+    "aside article"
+    "footer footer";
+  grid-gap: 5px;
+}
+
+header {
+  grid-area: header;
+  background-color: rgb(34, 34, 66);
+  color: white;
+  padding: 20px;
+}
+
+aside {
+  grid-area: aside;
+  background-color: gray;
+  color: white;
+  padding: 20px;
+}
+
+article {
+  grid-area: article;
+  background-color: lightgray;
+  color: black;
+  padding: 20px;
+}
+
+article > div.container-article {
+  display: grid;
+  grid-template-columns: 25% auto 25%;
+  grid-template-rows: row;
+  grid-template-areas: "image1 image2 image3";
+  grid-gap: 5px;
+}
+
+article > div.container-article > div {
+  padding: 20px;
+  text-align: center;
+  background-color: rgb(128, 128, 128);
+}
+
+article > div.container-article > div.image-1 {
+  grid-area: image1;
+}
+
+article > div.container-article > div.image-2 {
+  grid-area: image2;
+}
+
+article > div.container-article > div.image-3 {
+  grid-area: image3;
+}
+
+footer {
+  grid-area: footer;
+  background-color: rgb(34, 34, 66);
+  color: white;
+  padding: 20px;
+}
