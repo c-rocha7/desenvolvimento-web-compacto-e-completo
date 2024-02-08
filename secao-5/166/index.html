@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h1 {
+        background-color: gray;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1
+      onclick="alert('título')"
+      oncontextmenu="alert('botão direito')"
+      onmouseenter="console.log('entrou')"
+      onmousemove="console.log('moveu')"
+      onmouseleave="console.log('saiu')"
+    >
+      Texto do título desta página
+    </h1>
+
+    <button id="1" onclick="alterar_texto(event)">Alterar texto</button>
+    <button id="2" onclick="alterar_texto(event)">Alterar texto</button>
+    <button id="3" onclick="alterar_texto(event)">Alterar texto</button>
+    <button id="4" onclick="alterar_texto(event)">Alterar texto</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
