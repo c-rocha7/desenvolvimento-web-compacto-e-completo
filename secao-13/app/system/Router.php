@@ -2,6 +2,8 @@
 
 namespace bng\System;
 
+use bng\Controllers\Main;
+
 class Router
 {
     public static function dispatch()
@@ -24,19 +26,22 @@ class Router
         $parameters = $_GET;
 
         // remove controller from parameters
-        if (key_exists("ct", $parameters)) {
-            unset($parameters["ct"]);
+        if (key_exists('ct', $parameters)) {
+            unset($parameters['ct']);
         }
 
         // remove method from parameters
-        if (key_exists("mt", $parameters)) {
-            unset($parameters["mt"]);
+        if (key_exists('mt', $parameters)) {
+            unset($parameters['mt']);
         }
 
-        echo '<pre>';
-        var_dump($httpverb);
-        var_dump($controller);
-        var_dump($method);
-        var_dump($parameters);
+        // tries to instantiate the controller and execute the method
+        try {
+            $class      = "bng\Controllers\\$controller";
+            $controller = new $class();
+            $controller->$method(...$parameters);
+        } catch (\Exception $err) {
+            exit($err->getMessage());
+        }
     }
 }
