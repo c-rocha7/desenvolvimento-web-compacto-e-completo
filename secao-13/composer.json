@@ -25,5 +25,10 @@
       "app/config.php",
       "app/helpers/Functions.php"
     ]
+  },
+  "scripts": {
+    "cs-fix": [
+      "@php tools/php-cs-fixer/vendor/bin/php-cs-fixer fix"
+    ]
   }
 }

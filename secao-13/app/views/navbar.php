@@ -3,7 +3,7 @@
 
         <div class="col-6 d-flex align-content-center p-3">
             <img src="assets/images/logo_32.png" alt="logo bng" height="32" class="me-3">
-            <h3><?= APP_NAME ?></h3>
+            <h3><?php echo APP_NAME; ?></h3>
         </div>
 
         <div class="col-6 text-end p-3">

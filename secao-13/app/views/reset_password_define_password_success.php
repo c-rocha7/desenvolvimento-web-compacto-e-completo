@@ -5,7 +5,7 @@
 
                 <div class="d-flex align-items-center justify-content-center my-4">
                     <img src="assets/images/logo_64.png" class="img-fluid me-3">
-                    <h2><strong><?= APP_NAME ?></strong></h2>
+                    <h2><strong><?php echo APP_NAME; ?></strong></h2>
                 </div>
 
                 <h1 class="text-center text-success mb-3"><i class="fa-solid fa-circle-check"></i></h1>

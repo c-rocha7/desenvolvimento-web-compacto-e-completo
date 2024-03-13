@@ -11,15 +11,15 @@ abstract class BaseModel
     public function db_connect()
     {
         $options = [
-            'host' => MYSQL_HOST,
+            'host'     => MYSQL_HOST,
             'database' => MYSQL_DATABASE,
             'username' => MYSQL_USERNAME,
-            'password' => MYSQL_PASSWORD
+            'password' => MYSQL_PASSWORD,
         ];
         $this->db = new Database($options);
     }
 
-    public function query($sql = "", $params = [])
+    public function query($sql = '', $params = [])
     {
         return $this->db->execute_query($sql);
     }
