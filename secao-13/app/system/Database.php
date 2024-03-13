@@ -2,6 +2,10 @@
 
 namespace bng\System;
 
+use PDO;
+use PDOException;
+use stdClass;
+
 // ============================================================================
 class Database
 {
@@ -16,16 +20,16 @@ class Database
     public function __construct($cfg_options, $return_type = 'object')
     {
         // set connection configurations
-        $this->_host     = $cfg_options['host'];
+        $this->_host = $cfg_options['host'];
         $this->_database = $cfg_options['database'];
         $this->_username = $cfg_options['username'];
         $this->_password = $cfg_options['password'];
 
         // sets the return type
-        if (!empty($return_type) && 'object' == $return_type) {
-            $this->_return_type = \PDO::FETCH_OBJ;
+        if (!empty($return_type) && $return_type == 'object') {
+            $this->_return_type = PDO::FETCH_OBJ;
         } else {
-            $this->_return_type = \PDO::FETCH_ASSOC;
+            $this->_return_type = PDO::FETCH_ASSOC;
         }
     }
 
@@ -35,17 +39,18 @@ class Database
         // executes a query with return results
 
         // connection
-        $connection = new \PDO(
-            'mysql:host='.$this->_host.';dbname='.$this->_database.';charset=utf8',
+        $connection = new PDO(
+            'mysql:host=' . $this->_host . ';dbname=' . $this->_database . ';charset=utf8',
             $this->_username,
             $this->_password,
-            [\PDO::ATTR_PERSISTENT => true]
+            array(PDO::ATTR_PERSISTENT => true)
         );
 
         $results = null;
 
         // prepare and execute the query
         try {
+
             $db = $connection->prepare($sql);
             if (!empty($parameters)) {
                 $db->execute($parameters);
@@ -53,7 +58,9 @@ class Database
                 $db->execute();
             }
             $results = $db->fetchAll($this->_return_type);
-        } catch (\PDOException $err) {
+
+        } catch (PDOException $err) {
+
             // close connection
             $connection = null;
 
@@ -74,11 +81,11 @@ class Database
         // executes a query that will not return results
 
         // connection
-        $connection = new \PDO(
-            'mysql:host='.$this->_host.';dbname='.$this->_database.';charset=utf8',
+        $connection = new PDO(
+            'mysql:host=' . $this->_host . ';dbname=' . $this->_database. ';charset=utf8',
             $this->_username,
             $this->_password,
-            [\PDO::ATTR_PERSISTENT => true]
+            array(PDO::ATTR_PERSISTENT => true)
         );
 
         // init transaction
@@ -86,6 +93,7 @@ class Database
 
         // prepare and execute the query
         try {
+
             $db = $connection->prepare($sql);
             if (!empty($parameters)) {
                 $db->execute($parameters);
@@ -98,7 +106,9 @@ class Database
 
             // finish transaction
             $connection->commit();
-        } catch (\PDOException $err) {
+
+        } catch (PDOException $err) {
+
             // undo all sql operations on error
             $connection->rollBack();
 
@@ -118,14 +128,13 @@ class Database
     // ========================================================================
     private function _result($status, $message, $sql, $results, $affected_rows, $last_id)
     {
-        $tmp                = new \stdClass();
-        $tmp->status        = $status;
-        $tmp->message       = $message;
-        $tmp->query         = $sql;
-        $tmp->results       = $results;
+        $tmp = new stdClass();
+        $tmp->status = $status;
+        $tmp->message = $message;
+        $tmp->query = $sql;
+        $tmp->results = $results;
         $tmp->affected_rows = $affected_rows;
-        $tmp->last_id       = $last_id;
-
+        $tmp->last_id = $last_id;
         return $tmp;
     }
 }

@@ -2,14 +2,14 @@
 
 function printData($data, $die = true)
 {
-	echo '<pre>';
-	if (is_object($data) || is_array($data)) {
-		print_r($data);
-	} else {
-		echo $data;
-	}
+    echo '<pre>';
+    if(is_object($data) || is_array($data)){
+        print_r($data);
+    } else {
+        echo $data;
+    }
 
-	if ($die) {
-        die('<br>FIM<br>');
+    if($die){
+        die('<br>FIM</br>');
     }
 }
