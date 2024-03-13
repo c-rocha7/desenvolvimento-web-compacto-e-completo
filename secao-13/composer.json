@@ -19,7 +19,8 @@
       ]
     },
     "files": [
-      "app/config.php"
+      "app/config.php",
+      "app/helpers/Functions.php"
     ]
   }
 }
