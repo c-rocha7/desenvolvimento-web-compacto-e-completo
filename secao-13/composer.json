@@ -1,0 +1,12 @@
+{
+  "name": "sys4soft/bng",
+  "description": "Aplicação para gestão de name gathering.",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Cauã R. Pereira",
+      "email": "7aauac@gmail.com"
+    }
+  ],
+  "require": {}
+}
