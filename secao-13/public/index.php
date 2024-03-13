@@ -6,4 +6,8 @@ require_once '../vendor/autoload.php';
 
 Router::dispatch();
 
-teste();
+// $nomes = ['Leonard', 'Willie', 'Sue'];
+$nome = 'Mittie Fernandez';
+
+// printData($nomes);
+printData($nome);
