@@ -8,5 +8,15 @@
       "email": "7aauac@gmail.com"
     }
   ],
-  "require": {}
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "bng\\Controllers\\": [
+        "app/controllers"
+      ]
+    },
+    "files": [
+      "app/config.php"
+    ]
+  }
 }
