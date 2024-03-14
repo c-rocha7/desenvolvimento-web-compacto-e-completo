@@ -40,6 +40,11 @@ class Main extends BaseController
             unset($_SESSION['validation_errors']);
         }
 
+        if (!empty($_SESSION['server_error'])) {
+            $data['server_error'] = $_SESSION['server_error'];
+            unset($_SESSION['server_error']);
+        }
+
         // display login form
         $this->view('layouts/html_header');
         $this->view('login_frm', $data);
@@ -95,18 +100,28 @@ class Main extends BaseController
             return;
         }
 
-        $model = new Agents();
+        $model  = new Agents();
         $result = $model->check_login($username, $password);
-        if ($result['status']) {
-            echo 'OK!';
-        } else {
-            echo 'NOK!';
+        if (!$result['status']) {
+            // invalid login
+            $_SESSION['server_error'] = 'Login inválido';
+            $this->login_frm();
+
+            return;
         }
+
+        // load user information to the session
+        $results = $model->get_user_data($username);
+        printData($results);
+
+        // update the last login
+
+        // go to main page
     }
 }
 
 /*
  * admin@bng.com - Aa123456
- * agent1@bng.com - Aa123456
- * agent2@bng.com - Aa123456
+ * agente1@bng.com - Aa123456
+ * agente2@bng.com - Aa123456
  */
