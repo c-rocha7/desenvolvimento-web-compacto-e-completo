@@ -2,6 +2,8 @@
 
 namespace bng\Controllers;
 
+use bng\Models\Agents;
+
 class Main extends BaseController
 {
     // =======================================================
@@ -93,6 +95,18 @@ class Main extends BaseController
             return;
         }
 
-        echo $username.'<br>'.$password;
+        $model = new Agents();
+        $result = $model->check_login($username, $password);
+        if ($result['status']) {
+            echo 'OK!';
+        } else {
+            echo 'NOK!';
+        }
     }
 }
+
+/*
+ * admin@bng.com - Aa123456
+ * agent1@bng.com - Aa123456
+ * agent2@bng.com - Aa123456
+ */
