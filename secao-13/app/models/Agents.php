@@ -61,7 +61,7 @@ class Agents extends BaseModel
             ':id' => $id,
         ];
         $this->db_connect();
-        $results = $this->non_query("UPDATE agents SET last_login = NOW() WHERE id = :id", $params);
+        $results = $this->non_query('UPDATE agents SET last_login = NOW() WHERE id = :id', $params);
 
         return $results;
     }

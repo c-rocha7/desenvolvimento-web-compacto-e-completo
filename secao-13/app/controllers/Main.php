@@ -16,8 +16,12 @@ class Main extends BaseController
             return;
         }
 
+        $data['user'] = $_SESSION['user'];
+
         $this->view('layouts/html_header');
-        echo '<h3 class="text-white text-center">Olá Mundo!</h3>';
+        $this->view('navbar', $data);
+        $this->view('homepage', $data);
+        $this->view('footer');
         $this->view('layouts/html_footer');
     }
 
@@ -83,7 +87,7 @@ class Main extends BaseController
         }
 
         // check if username is between 5 and 50 chars
-        if (strlen($username) < 5 || strlen($username) < 50) {
+        if (strlen($username) < 5 || strlen($username) > 50) {
             $validation_errors[] = 'O username deve ter entre 5 e 50 caracteres.';
         }
 
@@ -120,6 +124,16 @@ class Main extends BaseController
         $results = $model->set_user_last_login($_SESSION['user']->id);
 
         // go to main page
+        $this->index();
+    }
+
+    // =======================================================
+    public function logout()
+    {
+        // clear user from session
+        unset($_SESSION['user']);
+
+        // go to index (login form)
         $this->index();
     }
 }

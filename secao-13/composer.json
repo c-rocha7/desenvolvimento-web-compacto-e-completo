@@ -27,7 +27,7 @@
     ]
   },
   "scripts": {
-    "cs-fix": [
+    "php-cs-fixer": [
       "@php tools/php-cs-fixer/vendor/bin/php-cs-fixer fix"
     ]
   }
