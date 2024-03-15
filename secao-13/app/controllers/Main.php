@@ -136,6 +136,13 @@ class Main extends BaseController
     // =======================================================
     public function logout()
     {
+        // disable direct access to logout
+        if (!check_session()) {
+            $this->index();
+
+            return;
+        }
+
         // logger
         logger($_SESSION['user']->name.' - fez logout');
 
