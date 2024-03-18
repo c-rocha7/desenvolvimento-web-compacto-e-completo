@@ -31,13 +31,14 @@ class Agent extends BaseController
     // =======================================================
     public function new_client_frm()
     {
-        if (!check_session() || $_SESSION['user']->profile != 'agent') {
+        if (!check_session() || 'agent' != $_SESSION['user']->profile) {
             header('Location: index.php');
         }
 
-        $data['user'] = $_SESSION['user'];
+        $data['user']      = $_SESSION['user'];
+        $data['flatpickr'] = true;
 
-        $this->view('layouts/html_header');
+        $this->view('layouts/html_header', $data);
         $this->view('navbar', $data);
         $this->view('insert_client_frm');
         $this->view('footer');
@@ -47,7 +48,7 @@ class Agent extends BaseController
     // =======================================================
     public function new_client_submit()
     {
-        if (!check_session() || $_SESSION['user']->profile != 'agent' || $_SERVER['REQUEST_METHOD'] != 'POST') {
+        if (!check_session() || 'agent' != $_SESSION['user']->profile || 'POST' != $_SERVER['REQUEST_METHOD']) {
             header('Location: index.php');
         }
 
