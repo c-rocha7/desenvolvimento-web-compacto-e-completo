@@ -58,11 +58,17 @@ function aes_encrypt($value)
 function aes_decrypt($value)
 {
     // decrypt $value
-    if (strlen($value) % 2 != 0) {
+    if (0 != strlen($value) % 2) {
         return false;
     }
-    
+
     return openssl_decrypt(hex2bin($value), 'aes-256-cbc', OPENSSL_KEY, OPENSSL_RAW_DATA, OPENSSL_IV);
+}
+
+// =======================================================
+function get_active_user_name()
+{
+    return $_SESSION['user']->name;
 }
 
 // =======================================================
