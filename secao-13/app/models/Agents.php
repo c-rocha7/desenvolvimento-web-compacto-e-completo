@@ -125,4 +125,27 @@ class Agents extends BaseModel
         $this->db_connect();
         $results = $this->non_query("INSERT INTO persons VALUES(0, AES_ENCRYPT(:name, '".MYSQL_AES_KEY."'), :gender, :birthdate, AES_ENCRYPT(:email, '".MYSQL_AES_KEY."'), AES_ENCRYPT(:phone, '".MYSQL_AES_KEY."'), :interests, :id_agent, NOW(), NOW(), NULL)", $params);
     }
+
+    // =======================================================
+    public function get_client_data($id_client)
+    {
+        // get client data by id
+        $params = [
+            ':id_client' => $id_client,
+        ];
+
+        $this->db_connect();
+        $results = $this->query("SELECT id, AES_DECRYPT(name, '".MYSQL_AES_KEY."') name, gender, birthdate, AES_DECRYPT(email, '".MYSQL_AES_KEY."') email, interests FROM persons WHERE id = :id_client", $params);
+
+        if (0 == $results->affected_rows) {
+            return [
+                'status' => 'error',
+            ];
+        }
+
+        return [
+            'status' => 'success',
+            'data'   => $results->results[0],
+        ];
+    }
 }
