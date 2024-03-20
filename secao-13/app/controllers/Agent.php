@@ -44,6 +44,12 @@ class Agent extends BaseController
             unset($_SESSION['validation_errors']);
         }
 
+        // check if there is a server error
+        if (!empty($_SESSION['server_error'])) {
+            $data['server_error'] = $_SESSION['server_error'];
+            unset($_SESSION['server_error']);
+        }
+
         $this->view('layouts/html_header', $data);
         $this->view('navbar', $data);
         $this->view('insert_client_frm');
@@ -112,6 +118,18 @@ class Agent extends BaseController
         // check if there are validation errors to return to the from
         if (!empty($validation_erros)) {
             $_SESSION['validation_errors'] = $validation_erros;
+            $this->new_client_frm();
+
+            return;
+        }
+
+        // check if the client already exists with the same name
+        $model   = new Agents();
+        $results = $model->check_if_clients_exists($_POST);
+
+        if ($results['status']) {
+            // a person with the same name exists for this agent. Returns a server error
+            $_SESSION['server_error'] = 'Já existe um cliente com esse nome.';
             $this->new_client_frm();
 
             return;
