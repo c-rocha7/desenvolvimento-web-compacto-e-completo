@@ -135,7 +135,7 @@ class Agents extends BaseModel
         ];
 
         $this->db_connect();
-        $results = $this->query("SELECT id, AES_DECRYPT(name, '".MYSQL_AES_KEY."') name, gender, birthdate, AES_DECRYPT(email, '".MYSQL_AES_KEY."') email, interests FROM persons WHERE id = :id_client", $params);
+        $results = $this->query("SELECT id, AES_DECRYPT(name, '".MYSQL_AES_KEY."') name, gender, birthdate, AES_DECRYPT(email, '".MYSQL_AES_KEY."') email, AES_DECRYPT(phone, '".MYSQL_AES_KEY."') phone, interests FROM persons WHERE id = :id_client", $params);
 
         if (0 == $results->affected_rows) {
             return [

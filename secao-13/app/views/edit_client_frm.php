@@ -58,10 +58,15 @@
                                 <button type="submit" class="btn btn-secondary"><i class="fa-regular fa-floppy-disk me-2"></i>Atualizar</button>
                             </div>
 
-                            <div class="alert alert-danger p-2 text-center">
-                                [mensagem de erro]
-                            </div>
-
+                            <?php if (isset($validation_errors)) { ?>
+                                <div class="alert alert-danger p-2 text-center">
+                                    <ul>
+                                        <?php foreach ($validation_errors as $error) {?>
+                                            <li><?php echo $error; ?></li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                            <?php } ?>
                         </form>
                     </div>
                 </div>
