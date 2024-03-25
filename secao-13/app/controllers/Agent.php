@@ -209,7 +209,7 @@ class Agent extends BaseController
         if (empty($_POST['text_name'])) {
             $validation_errors[] = 'Nome é de preenchimento obrigatório.';
         } else {
-            if (strlen($_POST['text_name'] < 3) || strlen($_POST['text_name'] > 50)) {
+            if (strlen($_POST['text_name']) < 3 || strlen($_POST['text_name']) > 50) {
                 $validation_errors[] = 'O nome deve ter entre 3 e 50 caracteres.';
             }
         }
@@ -295,6 +295,60 @@ class Agent extends BaseController
     // =======================================================
     public function delete_client($id)
     {
-        echo 'eliminar '.aes_decrypt($id);
+        if (!check_session() || $_SESSION['user']->profile != 'agent') {
+            header('Location: index.php');
+        }
+
+        // check if the $id is valid
+        $id_client = aes_decrypt($id);
+        if (!$id_client) {
+
+            // id_client is invalid
+            header('Location: index.php');
+        }
+
+        // loads the model to get the client's data
+        $model = new Agents();
+        $results = $model->get_client_data($id_client);
+
+        if (empty($results['data'])) {
+            header('Location: index.php');
+        }
+
+        // display the view
+        $data['user'] = $_SESSION['user'];
+        $data['client'] = $results['data'];
+
+        $this->view('layouts/html_header', $data);
+        $this->view('navbar', $data);
+        $this->view('delete_client_confirmation', $data);
+        $this->view('footer');
+        $this->view('layouts/html_footer');
+    }
+
+    // =======================================================
+    public function delete_client_confirm($id)
+    {
+        if (!check_session() || $_SESSION['user']->profile != 'agent') {
+            header('Location: index.php');
+        }
+
+        // check if the $id is valid
+        $id_client = aes_decrypt($id);
+        if (!$id_client) {
+
+            // id_client is invalid
+            header('Location: index.php');
+        }
+
+        // loads the model to delete the client's data
+        $model = new Agents();
+        $results = $model->delete_client($id_client);
+
+        // logger
+        logger(get_active_user_name().' - Eliminado o cliente id: '.$id_client);
+
+        // return to the main clients page
+        $this->my_clients();
     }
 }

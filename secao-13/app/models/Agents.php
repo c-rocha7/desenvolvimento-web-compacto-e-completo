@@ -180,9 +180,20 @@ class Agents extends BaseModel
             ':birthdate' => $birthdate->format('Y-m-d H:i:s'),
             ':email'     => $post_data['text_email'],
             ':phone'     => $post_data['text_phone'],
-            ':interest'  => $post_data['text_interest'],
+            ':interests'  => $post_data['text_interests'],
         ];
         $this->db_connect();
         $this->non_query("UPDATE persons SET name = AES_ENCRYPT(:name, '".MYSQL_AES_KEY."'), gender = :gender, birthdate = :birthdate, email = AES_ENCRYPT(:email, '".MYSQL_AES_KEY."'), phone = AES_ENCRYPT(:phone, '".MYSQL_AES_KEY."'), interests = :interests, updated_at = NOW() WHERE id = :id", $params);
+    }
+
+    // =======================================================
+    public function delete_client($id_client)
+    {
+        // delete the client from the database (hard delete)
+        $params = [
+            ':id' => $id_client,
+        ];
+        $this->db_connect();
+        $results = $this->non_query("DELETE FROM persons WHERE id = :id", $params);
     }
 }
