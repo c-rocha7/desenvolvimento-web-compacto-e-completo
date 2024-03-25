@@ -169,7 +169,8 @@ class Agent extends BaseController
             header('Location: index.php');
         }
 
-        $data['client'] = $results['data'];
+        $data['client']            = $results['data'];
+        $data['client']->birthdate = date('d-m-Y', strtotime($data['client']->birthdate));
 
         // display the edit client form
         $data['user']      = $_SESSION['user'];
