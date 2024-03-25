@@ -67,6 +67,12 @@
                                     </ul>
                                 </div>
                             <?php } ?>
+
+                            <?php if (isset($server_error)) { ?>
+                                <div class="alert alert-danger p-2 text-center">
+                                    <?php echo $server_error; ?>
+                                </div>
+                            <?php } ?>
                         </form>
                     </div>
                 </div>
