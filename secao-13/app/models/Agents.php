@@ -196,4 +196,37 @@ class Agents extends BaseModel
         $this->db_connect();
         $results = $this->non_query('DELETE FROM persons WHERE id = :id', $params);
     }
+
+    // =======================================================
+    public function check_current_password($current_password)
+    {
+        // check if the current_password is equal to the one in the database
+        $params = [
+            ':id_user' => $_SESSION['user']->id,
+        ];
+        $this->db_connect();
+        $results = $this->query('SELECT passwrd FROM agents WHERE id = :id_user', $params);
+
+        if (password_verify($current_password, $results->results[0]->passwrd)) {
+            return [
+                'status' => true,
+            ];
+        } else {
+            return [
+                'status' => false,
+            ];
+        }
+    }
+
+    public function update_agent_password($new_password)
+    {
+        // updates the current user password
+        $params = [
+            ':passwrd' => password_hash($new_password, PASSWORD_DEFAULT),
+            ':id'      => $_SESSION['user']->id,
+        ];
+
+        $this->db_connect();
+        $this->non_query('UPDATE agents SET passwrd = :passwrd, updated_at = NOW() WHERE id = :id', $params);
+    }
 }
