@@ -100,7 +100,7 @@ class Agents extends BaseModel
             ];
         } else {
             return [
-              'status' => true,
+                'status' => true,
             ];
         }
     }
@@ -180,7 +180,7 @@ class Agents extends BaseModel
             ':birthdate' => $birthdate->format('Y-m-d H:i:s'),
             ':email'     => $post_data['text_email'],
             ':phone'     => $post_data['text_phone'],
-            ':interests'  => $post_data['text_interests'],
+            ':interests' => $post_data['text_interests'],
         ];
         $this->db_connect();
         $this->non_query("UPDATE persons SET name = AES_ENCRYPT(:name, '".MYSQL_AES_KEY."'), gender = :gender, birthdate = :birthdate, email = AES_ENCRYPT(:email, '".MYSQL_AES_KEY."'), phone = AES_ENCRYPT(:phone, '".MYSQL_AES_KEY."'), interests = :interests, updated_at = NOW() WHERE id = :id", $params);
@@ -194,6 +194,6 @@ class Agents extends BaseModel
             ':id' => $id_client,
         ];
         $this->db_connect();
-        $results = $this->non_query("DELETE FROM persons WHERE id = :id", $params);
+        $results = $this->non_query('DELETE FROM persons WHERE id = :id', $params);
     }
 }

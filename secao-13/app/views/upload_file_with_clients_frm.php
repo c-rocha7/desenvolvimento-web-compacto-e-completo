@@ -24,11 +24,11 @@
                                 <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-upload me-2"></i>Carregar</button>
                             </div>
 
-                            <?php if (isset($server_error)): ?>
+                            <?php if (isset($server_error)) { ?>
                                 <div class="alert alert-danger p-2 text-center">
-                                    <?= $server_error ?>
+                                    <?php echo $server_error; ?>
                                 </div>
-                            <?php endif; ?>
+                            <?php } ?>
 
                         </form>
                     </div>

@@ -295,20 +295,19 @@ class Agent extends BaseController
     // =======================================================
     public function delete_client($id)
     {
-        if (!check_session() || $_SESSION['user']->profile != 'agent') {
+        if (!check_session() || 'agent' != $_SESSION['user']->profile) {
             header('Location: index.php');
         }
 
         // check if the $id is valid
         $id_client = aes_decrypt($id);
         if (!$id_client) {
-
             // id_client is invalid
             header('Location: index.php');
         }
 
         // loads the model to get the client's data
-        $model = new Agents();
+        $model   = new Agents();
         $results = $model->get_client_data($id_client);
 
         if (empty($results['data'])) {
@@ -316,7 +315,7 @@ class Agent extends BaseController
         }
 
         // display the view
-        $data['user'] = $_SESSION['user'];
+        $data['user']   = $_SESSION['user'];
         $data['client'] = $results['data'];
 
         $this->view('layouts/html_header', $data);
@@ -329,20 +328,19 @@ class Agent extends BaseController
     // =======================================================
     public function delete_client_confirm($id)
     {
-        if (!check_session() || $_SESSION['user']->profile != 'agent') {
+        if (!check_session() || 'agent' != $_SESSION['user']->profile) {
             header('Location: index.php');
         }
 
         // check if the $id is valid
         $id_client = aes_decrypt($id);
         if (!$id_client) {
-
             // id_client is invalid
             header('Location: index.php');
         }
 
         // loads the model to delete the client's data
-        $model = new Agents();
+        $model   = new Agents();
         $results = $model->delete_client($id_client);
 
         // logger
@@ -355,7 +353,7 @@ class Agent extends BaseController
     // =======================================================
     public function upload_file_frm()
     {
-        if (!check_session() || $_SESSION['user']->profile != 'agent') {
+        if (!check_session() || 'agent' != $_SESSION['user']->profile) {
             header('Location: index.php');
         }
 
@@ -378,49 +376,81 @@ class Agent extends BaseController
     // =======================================================
     public function upload_file_submit()
     {
-        if (!check_session() || $_SESSION['user']->profile != 'agent') {
+        if (!check_session() || 'agent' != $_SESSION['user']->profile) {
             header('Location: index.php');
         }
 
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+        if ('POST' != $_SERVER['REQUEST_METHOD']) {
             header('Location: index.php');
         }
 
         // check if there is a uploaded file
         if (empty($_FILES) || empty($_FILES['client_file']['name'])) {
-            $_SESSION['server_error'] = "Faça o carregamento de um ficheiro XLSX ou CSV.";
+            $_SESSION['server_error'] = 'Faça o carregamento de um ficheiro XLSX ou CSV.';
             $this->upload_file_frm();
+
             return;
         }
 
         // check if the uploaded file extension is valid
         $valid_extensions = ['xlsx', 'csv'];
-        $tmp = explode('.', $_FILES['clients_file']['name']);
-        $extension = end($tmp);
+        $tmp              = explode('.', $_FILES['clients_file']['name']);
+        $extension        = end($tmp);
         if (!in_array($extension, $valid_extensions)) {
-            $_SESSION['server_error'] = "O ficheiro deve ser do tipo XLSX ou CSV.";
+            $_SESSION['server_error'] = 'O ficheiro deve ser do tipo XLSX ou CSV.';
             $this->upload_file_frm();
+
             return;
         }
 
         // check the size of the file: max = 2 MB
         if ($_FILES['client_file']['size'] > 2000000) {
-            $_SESSION['server_error'] = "O ficheiro deve ter, no máximo, 2 MB.";
+            $_SESSION['server_error'] = 'O ficheiro deve ter, no máximo, 2 MB.';
             $this->upload_file_frm();
+
             return;
         }
 
         // move file to final destination
-        $file_path = __DIR__ . '/../../uploads/dados_' . time() . '.' . $extension;
+        $file_path = __DIR__.'/../../uploads/dados_'.time().'.'.$extension;
         if (move_uploaded_file($_FILES['clients_file']['tmp_name'], $file_path)) {
-
-            // the file was uploaded correctly.
-            // ready to charge data into the database
-            die('ficheiro carregado com sucesso.');
+            // validates the header
+            $result = $this->has_valid_header($file_path);
+            var_dump($result);
         } else {
-            $_SESSION['server_error'] = "Aconteceu um erro inesperado no carregamento do ficheiro.";
+            $_SESSION['server_error'] = 'Aconteceu um erro inesperado no carregamento do ficheiro.';
             $this->upload_file_frm();
+
             return;
         }
+    }
+
+    // =======================================================
+    public function has_valid_header($file_path)
+    {
+        // validates the file
+        $data      = [];
+        $file_path = pathinfo($file_path);
+
+        if ('csv' == $file_path['extension']) {
+            // opens the CSV file to read the header only
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+            $reader->setInputEncoding('UTF-8');
+            $reader->setDelimiter(';');
+            $reader->setEnclosure('');
+            $sheet = $reader->load($file_path);
+            $data  = $sheet->getActiveSheet()->toArray()[0];
+        } elseif ('xlsx' == $file_path['extension']) {
+            // opens the XLSX file to read the header only
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file_path);
+            $data        = $spreadsheet->getActiveSheet()->toArray()[0];
+        }
+
+        // check if the header content if valid
+        $valid_header = 'name,gender,birthdate,email,phone,interests';
+
+        return implode(',', $data) == $valid_header ? true : false;
     }
 }
