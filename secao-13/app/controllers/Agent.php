@@ -404,7 +404,7 @@ class Agent extends BaseController
         $extension        = end($tmp);
         if (!in_array($extension, $valid_extensions)) {
             // logger
-            logger(get_active_user_name() . " - tentou carregar um ficheiro inválido: " . $_FILES['client_file']['name'], "error");
+            logger(get_active_user_name().' - tentou carregar um ficheiro inválido: '.$_FILES['client_file']['name'], 'error');
 
             $_SESSION['server_error'] = 'O ficheiro deve ser do tipo XLSX ou CSV.';
             $this->upload_file_frm();
@@ -415,7 +415,7 @@ class Agent extends BaseController
         // check the size of the file: max = 2 MB
         if ($_FILES['client_file']['size'] > 2000000) {
             // logger
-            logger(get_active_user_name() . " - tentou carregar um ficheiro inválido: " . $_FILES['client_file']['name'] . " tamanho máximo excedido.", "error");
+            logger(get_active_user_name().' - tentou carregar um ficheiro inválido: '.$_FILES['client_file']['name'].' tamanho máximo excedido.', 'error');
 
             $_SESSION['server_error'] = 'O ficheiro deve ter, no máximo, 2 MB.';
             $this->upload_file_frm();
@@ -435,7 +435,7 @@ class Agent extends BaseController
                 // header is not ok
 
                 // logger
-                logger(get_active_user_name() . " - tentou carregar um ficheiro com header incorreto: " . $_FILES['client_file']['name'], "error");
+                logger(get_active_user_name().' - tentou carregar um ficheiro com header incorreto: '.$_FILES['client_file']['name'], 'error');
 
                 $_SESSION['server_error'] = 'O ficheiro não tem o header no formato correto.';
                 $this->upload_file_frm();
@@ -444,7 +444,7 @@ class Agent extends BaseController
             }
         } else {
             // logger
-            logger(get_active_user_name() . " - aconteceu um erro inesperado no carregamento do ficheiro: " . $_FILES['client_file']['name'], "error");
+            logger(get_active_user_name().' - aconteceu um erro inesperado no carregamento do ficheiro: '.$_FILES['client_file']['name'], 'error');
 
             $_SESSION['server_error'] = 'Aconteceu um erro inesperado no carregamento do ficheiro.';
             $this->upload_file_frm();
@@ -508,8 +508,8 @@ class Agent extends BaseController
         $model = new Agents();
 
         $report = [
-            'total' => 0,
-            'total_carregados' => 0,
+            'total'                => 0,
+            'total_carregados'     => 0,
             'total_nao_carregados' => 0,
         ];
 
@@ -518,8 +518,13 @@ class Agent extends BaseController
 
         // creates a circle to insert each record
         foreach ($data as $client) {
+            // check if row contains data or not
+            if (empty($client[0])) {
+                continue;
+            }
+
             // report
-            $report['total']++;
+            ++$report['total'];
 
             // check if the client already exists in the database
             $exists = $model->check_if_clients_exists(['text_name' => $client[0]]);
@@ -537,16 +542,16 @@ class Agent extends BaseController
                 $model->add_new_client_to_database($post_data);
 
                 // report
-                $report['total_carregados']++;
+                ++$report['total_carregados'];
             } else {
                 // client already exists
-                $report['total_nao_carregados']++;
+                ++$report['total_nao_carregados'];
             }
         }
 
         // logger
-        logger(get_active_user_name() . " - carregamento de ficheiro efetuado: " . $_FILES['client_file']['name']);
-        logger(get_active_user_name() . " - report: " . json_encode($report));
+        logger(get_active_user_name().' - carregamento de ficheiro efetuado: '.$_FILES['client_file']['name']);
+        logger(get_active_user_name().' - report: '.json_encode($report));
 
         // set report to display in upload form
         $report['filename'] = $_FILES['client_file']['name'];
@@ -554,5 +559,45 @@ class Agent extends BaseController
 
         // display the upload from again
         $this->upload_file_frm();
+    }
+
+    // =======================================================
+    public function export_clients_xlsx()
+    {
+        if (!check_session() || 'agent' != $_SESSION['user']->profile) {
+            header('Location: index.php');
+        }
+
+        // get all agent clients
+        $model   = new Agents();
+        $results = $model->get_agent_clients($_SESSION['user']->id);
+
+        // add header to collection
+        $data[] = ['name', 'gender', 'birthdate', 'email', 'phone', 'interests', 'created_at', 'updated_at'];
+
+        // place all clients in the $data collection
+        foreach ($results['data'] as $client) {
+            // remove the first property (id)
+            unset($client->id);
+
+            // add data as array (original $client is a stdClass object)
+            $data[] = (array) $client;
+        }
+
+        // store the data into the XLSX
+        $filename    = 'output_'.time().'.xlsx';
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $spreadsheet->removeSheetByIndex(0);
+        $worksheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, 'dados');
+        $spreadsheet->addSheet($worksheet);
+        $worksheet->fromArray($data);
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="'.urlencode($filename).'"');
+        $writer->save('php://output');
+
+        // logger
+        logger(get_active_user_name().' - fez download da lista de clientes para o ficheiro: '.$filename.' | total: '.count($data) - 1 .' registros');
     }
 }
