@@ -7,7 +7,7 @@
 
             <hr>
 
-            <?php if (count($clients) == 0): ?>
+            <?php if (0 == count($clients)) { ?>
 
                 <p class="my-4 text-center opacity-75">Não existem clientes registados.</p>
 
@@ -15,7 +15,7 @@
                     <a href="?ct=main&mt=index" class="btn btn-secondary px-4"><i class="fa-solid fa-chevron-left me-2"></i>Voltar</a>
                 </div>
 
-            <?php else: ?>
+            <?php } else { ?>
 
                 <table class="table table-striped table-bordered" id="table_clients">
                     <thead class="table-dark">
@@ -31,32 +31,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($clients as $client): ?>
+                        <?php foreach ($clients as $client) { ?>
                             <tr>
-                                <td><?= $client->name ?></td>
-                                <td class="text-center"><?= $client->gender ?></td>
-                                <td class="text-center"><?= $client->birthdate ?></td>
-                                <td><?= $client->email ?></td>
-                                <td class="text-center"><?= $client->phone ?></td>
-                                <td><?= $client->interests ?></td>
-                                <td><?= $client->agent ?></td>
-                                <td><?= $client->created_at ?></td>
+                                <td><?php echo $client->name; ?></td>
+                                <td class="text-center"><?php echo $client->gender; ?></td>
+                                <td class="text-center"><?php echo $client->birthdate; ?></td>
+                                <td><?php echo $client->email; ?></td>
+                                <td class="text-center"><?php echo $client->phone; ?></td>
+                                <td><?php echo $client->interests; ?></td>
+                                <td><?php echo $client->agent; ?></td>
+                                <td><?php echo $client->created_at; ?></td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php } ?>
                     </tbody>
                 </table>
 
                 <div class="row mt-3">
                     <div class="col">
-                        <p class="mb-5">Total: <strong><?= count($clients) ?></strong></p>
+                        <p class="mb-5">Total: <strong><?php echo count($clients); ?></strong></p>
                     </div>
                     <div class="col text-end">
-                        <a href="#" class="btn btn-secondary px-4"><i class="fa-regular fa-file-excel me-2"></i>Exportar para XLSX</a>
+                        <a href="?ct=admin&mt=export_clients_xlsx" class="btn btn-secondary px-4"><i class="fa-regular fa-file-excel me-2"></i>Exportar para XLSX</a>
                         <a href="?ct=main&mt=index" class="btn btn-secondary px-4"><i class="fa-solid fa-chevron-left me-2"></i>Voltar</a>
                     </div>
                 </div>
 
-            <?php endif; ?>
+            <?php } ?>
 
         </div>
     </div>
