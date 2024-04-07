@@ -85,7 +85,20 @@ class Admin extends BaseController
         // display the stats page
         $data['user'] = $_SESSION['user'];
 
-        $this->view('layout/html_header');
+        // prepare data to chartjs
+        if (0 != count($data['agents'])) {
+            $labels_tmp = [];
+            $totals_tmp = [];
+            foreach ($data['agents'] as $agent) {
+                $labels_tmp[] = $agent->agente;
+                $totals_tmp[] = $agent->total_clientes;
+            }
+            $data['chart_labels'] = '["'.implode('","', $labels_tmp).'"]';
+            $data['chart_totals'] = '['.implode(',', $totals_tmp).']';
+            $data['chart_js']     = true;
+        }
+
+        $this->view('layout/html_header', $data);
         $this->view('navbar', $data);
         $this->view('stats', $data);
         $this->view('footer');
