@@ -322,6 +322,12 @@ class Main extends BaseController
         $this->view('footer');
         $this->view('layouts/html_footer');
     }
+
+    // =======================================================
+    public function define_password($purl = '')
+    {
+        exit($purl);
+    }
 }
 
 /*
