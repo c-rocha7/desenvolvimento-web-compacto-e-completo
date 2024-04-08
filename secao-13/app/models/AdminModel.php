@@ -90,4 +90,35 @@ class AdminModel extends BaseModel
             return true;
         }
     }
+
+    // =================================================================
+    public function add_new_agent($data)
+    {
+        // add new agent to the database
+
+        // generate purl
+        $chars = 'Lorem ipsum dolor sit amet consectetur adipisicing';
+        $purl  = substr(str_shuffle($chars), 0, 20);
+
+        $params = [
+            ':name'    => $data['text_name'],
+            ':profile' => $data['select_profile'],
+            ':purl'    => $purl,
+        ];
+
+        $this->db_connect();
+        $results = $this->non_query("INSERT INTO agents VALUES(0, AES_ENCRYPT(:name, '".MYSQL_AES_KEY."'), NULL, :profile, :purl, NULL, NULL, NOW(), NULL, NULL)", $params);
+
+        if (0 == $results->affected_rows) {
+            return [
+                'status' => 'error',
+            ];
+        } else {
+            return [
+                'status' => 'success',
+                'email'  => $data['text_name'],
+                'purl'   => $purl,
+            ];
+        }
+    }
 }

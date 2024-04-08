@@ -311,6 +311,9 @@ class Admin extends BaseController
             return;
         }
 
-        exit('ok');
+        // add new agent to the database
+        $results = $model->add_new_agent($_POST);
+
+        printData($results);
     }
 }
