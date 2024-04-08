@@ -10,7 +10,7 @@
 
                         <hr>
 
-                        <form action="#" method="post">
+                        <form action="?ct=admin&mt=new_agent_submit" method="post" novalidate>
 
                             <div class="mb-3">
                                 <label for="text_name" class="form-label">Nome do agente</label>
@@ -21,7 +21,7 @@
                                 <label for="select_profile" class="form-label">Perfil</label>
                                 <select name="select_profile" id="select_profile" class="form-control" required>
                                     <option value="admin">Administrador</option>
-                                    <option value="agente">Agente</option>
+                                    <option value="agent">Agente</option>
                                 </select>
                             </div>
                             
@@ -30,9 +30,17 @@
                                 <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-user-plus me-2"></i>Criar agente</button>
                             </div>
 
-                            <div class="alert alert-danger p-2 text-center">
-                                [mensagem de erro]
-                            </div>
+                            <?php if (!empty($validation_error)) { ?>
+                                <div class="alert alert-danger p-2 text-center">
+                                    <?php echo $validation_error; ?>
+                                </div>
+                            <?php } ?>
+
+                            <?php if (!empty($server_error)) { ?>
+                                <div class="alert alert-danger p-2 text-center">
+                                    <?php echo $server_error; ?>
+                                </div>
+                            <?php } ?>
 
                         </form>
                     </div>
