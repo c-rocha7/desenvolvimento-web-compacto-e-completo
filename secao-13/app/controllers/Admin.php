@@ -467,4 +467,124 @@ class Admin extends BaseController
         // go to the main admin page
         $this->agents_management();
     }
+
+    // =======================================================
+    public function edit_delete($id = '')
+    {
+        // check if session has a user with admin profile
+        if (!check_session() || 'admin' != $_SESSION['user']->profile) {
+            header('Location: index.php');
+        }
+
+        // check if id is valid
+        $id = aes_decrypt($id);
+        if (!$id) {
+            header('Location: index.php');
+        }
+
+        // get agent data
+        $model   = new AdminModel();
+        $results = $model->get_agent_data_and_total_clients($id);
+
+        // display page for confirmation
+        $data['user']  = $_SESSION['user'];
+        $data['agent'] = $results->results[0];
+
+        // display the edit agent form
+        $this->view('layouts/html_header', $data);
+        $this->view('navbar', $data);
+        $this->view('agents_delete_confirmation', $data);
+        $this->view('footer');
+        $this->view('layouts/html_footer');
+    }
+
+    // =======================================================
+    public function delete_agent_confirm($id = '')
+    {
+        // check if session has a user with admin profile
+        if (!check_session() || 'admin' != $_SESSION['user']->profile) {
+            header('Location: index.php');
+        }
+
+        // check if id is valid
+        $id = aes_decrypt($id);
+        if (!$id) {
+            header('Location: index.php');
+        }
+
+        // delete agent (soft delete)
+        $model   = new AdminModel();
+        $results = $model->delete_agent($id);
+
+        if ('success' == $results->status) {
+            // logger
+            logger(get_active_user_name()." - eliminado com sucesso o agente ID: $id");
+        } else {
+            // logger
+            logger(get_active_user_name()." - aconteceu um erro na eliminação do agente ID: $id", 'error');
+        }
+
+        // go to the main page
+        $this->agents_management();
+    }
+
+    // =======================================================
+    public function edit_recover($id = '')
+    {
+        // check if session has a user with admin profile
+        if (!check_session() || 'admin' != $_SESSION['user']->profile) {
+            header('Location: index.php');
+        }
+
+        // check if id is valid
+        $id = aes_decrypt($id);
+        if (!$id) {
+            header('Location: index.php');
+        }
+
+        // get agent data
+        $model   = new AdminModel();
+        $results = $model->get_agent_data_and_total_clients($id);
+
+        // display page for confirmation
+        $data['user']  = $_SESSION['user'];
+        $data['agent'] = $results->results[0];
+
+        // display the edit agent form
+        $this->view('layouts/html_header', $data);
+        $this->view('navbar', $data);
+        $this->view('agents_recover_confirmation', $data);
+        $this->view('footer');
+        $this->view('layouts/html_footer');
+    }
+
+    // =======================================================
+    public function recover_agent_confirm($id = '')
+    {
+        // check if session has a user with admin profile
+        if (!check_session() || 'admin' != $_SESSION['user']->profile) {
+            header('Location: index.php');
+        }
+
+        // check if id is valid
+        $id = aes_decrypt($id);
+        if (!$id) {
+            header('Location: index.php');
+        }
+
+        // get agent data
+        $model   = new AdminModel();
+        $results = $model->recover_agent($id);
+
+        if ('success' == $results->status) {
+            // logger
+            logger(get_active_user_name()." - recuperado com sucesso o agente ID: $id");
+        } else {
+            // logger
+            logger(get_active_user_name()." - aconteceu um erro na recuperação do agente ID: $id", 'error');
+        }
+
+        // go to the main page
+        $this->agents_management();
+    }
 }
