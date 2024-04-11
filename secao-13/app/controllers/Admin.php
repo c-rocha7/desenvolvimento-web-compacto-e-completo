@@ -350,4 +350,53 @@ class Admin extends BaseController
         $this->view('footer');
         $this->view('layouts/html_footer');
     }
+
+    // =======================================================
+    public function edit_agent($id)
+    {
+        // check if session has a user with admin profile
+        if (!check_session() || 'admin' != $_SESSION['user']->profile) {
+            header('Location: index.php');
+        }
+
+        // check if id is valid
+        if (empty($id)) {
+            header('Location: index.php');
+        }
+
+        $id = aes_decrypt($id);
+        if (!$id) {
+            header('Location: index.php');
+        }
+
+        // get agents data
+        $model   = new AdminModel();
+        $results = $model->get_agent_data($id);
+
+        $data['user']  = $_SESSION['user'];
+        $data['agent'] = $results->results[0];
+
+        // display the edit agent form
+        $this->view('layouts/html_header', $data);
+        $this->view('navbar', $data);
+        $this->view('agents_edit_frm', $data);
+        $this->view('footer');
+        $this->view('layouts/html_footer');
+    }
+
+    // =======================================================
+    public function edit_agent_submit()
+    {
+        // check if session has a user with admin profile
+        if (!check_session() || 'admin' != $_SESSION['user']->profile) {
+            header('Location: index.php');
+        }
+
+        // check if there was a post
+        if ('POST' != $_SERVER['REQUEST_METHOD']) {
+            header('Location: index.php');
+        }
+
+        exit('OK!');
+    }
 }

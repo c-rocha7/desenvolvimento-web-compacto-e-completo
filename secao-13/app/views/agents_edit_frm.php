@@ -10,23 +10,25 @@
 
                         <hr>
 
-                        <form action="#" method="post">
+                        <form action="?ct=admin&mt=edit_agent_submit" method="post">
+
+                            <input type="hidden" name="id" value="<?php echo aes_encrypt($agent->id); ?>">
 
                             <div class="mb-3">
                                 <label for="text_name" class="form-label">Nome do agente</label>
-                                <input type="email" name="text_name" id="text_name" value="" class="form-control" required>
+                                <input type="email" name="text_name" id="text_name" value="<?php echo $agent->name; ?>" class="form-control" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="select_profile" class="form-label">Perfil</label>
                                 <select name="select_profile" id="select_profile" class="form-control" required>
-                                    <option value="admin">Administrador</option>
-                                    <option value="agente">Agente</option>
+                                    <option value="admin" <?php echo 'admin' == $agent->profile ? 'selected' : ''; ?>>Administrador</option>
+                                    <option value="agent" <?php echo 'agent' == $agent->profile ? 'selected' : ''; ?>>Agente</option>
                                 </select>
                             </div>
                             
                             <div class="mb-3 text-center">
-                                <a href="#" class="btn btn-secondary px-4"><i class="fa-solid fa-xmark me-2"></i>Cancelar</a>
+                                <a href="?ct=admin&mt=agents_management" class="btn btn-secondary px-4"><i class="fa-solid fa-xmark me-2"></i>Cancelar</a>
                                 <button type="submit" class="btn btn-secondary px-4"><i class="fa-solid fa-pen-to-square me-2"></i>Atualizar</button>
                             </div>
 
