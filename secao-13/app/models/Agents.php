@@ -218,6 +218,7 @@ class Agents extends BaseModel
         }
     }
 
+    // =======================================================
     public function update_agent_password($new_password)
     {
         // updates the current user password
@@ -228,5 +229,27 @@ class Agents extends BaseModel
 
         $this->db_connect();
         $this->non_query('UPDATE agents SET passwrd = :passwrd, updated_at = NOW() WHERE id = :id', $params);
+    }
+
+    // =======================================================
+    public function check_new_agent_purl($purl)
+    {
+        // check if there is a new agent with this purl
+        $params = [
+            ':purl' => $purl,
+        ];
+        $this->db_connect();
+        $results = $this->query('SELECT id FROM agents WHERE purl = :purl', $params);
+
+        if (0 == $results->affected_rows) {
+            return [
+                'status' => false,
+            ];
+        } else {
+            return [
+                'status' => true,
+                'id'     => $results->results[0]->id,
+            ];
+        }
     }
 }
