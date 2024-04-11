@@ -14,7 +14,7 @@ class Agents extends BaseModel
 
         // check if there is a user in the database
         $this->db_connect();
-        $results = $this->query("SELECT id, passwrd FROM agents WHERE AES_ENCRYPT(:username, '".MYSQL_AES_KEY."') = name", $params);
+        $results = $this->query("SELECT id, passwrd FROM agents WHERE AES_ENCRYPT(:username, '".MYSQL_AES_KEY."') = name AND deleted_at IS NULL", $params);
 
         // if there is no user, return false
         if (0 == $results->affected_rows) {
