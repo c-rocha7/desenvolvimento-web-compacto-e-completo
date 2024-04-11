@@ -2,14 +2,14 @@
 
 namespace bng\System;
 
-use bng\Controllers\Main;
-
 class Router
 {
     public static function dispatch()
     {
         // main route values
-        $httpverb   = $_SERVER['REQUEST_METHOD'];
+        $httpverb = $_SERVER['REQUEST_METHOD'];
+
+        // default controller and method
         $controller = 'main';
         $method     = 'index';
 
@@ -35,13 +35,13 @@ class Router
             unset($parameters['mt']);
         }
 
-        // tries to instanciate the controller and execute the method
+        // tries to instantiate the controller and execute the method
         try {
             $class      = "bng\Controllers\\$controller";
             $controller = new $class();
             $controller->$method(...$parameters);
-        } catch (\Exception $err) {
-            exit($err->getMessage());
+        } catch (\Throwable $th) {
+            exit('Acesso inválido.');
         }
     }
 }

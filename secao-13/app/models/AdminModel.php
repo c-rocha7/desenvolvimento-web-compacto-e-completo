@@ -68,7 +68,7 @@ class AdminModel extends BaseModel
         // get agents data to admin agents management
 
         $this->db_connect();
-        $results = $this->query("SELECT id, AES_DECRYPT(name, '".MYSQL_AES_KEY."') `name`, profile, last_login, created_at, updated_at, deleted_at FROM agents");
+        $results = $this->query("SELECT id, AES_DECRYPT(name, '".MYSQL_AES_KEY."') `name`, passwrd, profile, last_login, created_at, updated_at, deleted_at FROM agents");
 
         return $results;
     }
