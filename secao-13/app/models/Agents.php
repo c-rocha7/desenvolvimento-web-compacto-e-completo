@@ -265,4 +265,40 @@ class Agents extends BaseModel
         $this->db_connect();
         $this->non_query('UPDATE agents SET passwrd = :passwrd, purl = NULL, updated_at = NOW() where id = :id', $params);
     }
+
+    // =======================================================
+    public function set_code_for_recover_password($username)
+    {
+        // sets a code to recover the password, if the account exists
+        $params = [
+            ':username' => $username,
+        ];
+        $this->db_connect();
+        $results = $this->query("SELECT id FROM agents WHERE AES_ENCRYPT(:username, '".MYSQL_AES_KEY."') = name AND passwrd IS NOT NULL AND deleted_at IS NULL", $params);
+
+        // check if no agent was found
+        if (0 == $results->affected_rows) {
+            return [
+                'status' => 'error',
+            ];
+        }
+
+        // the agent was found
+
+        // generate code
+        $code   = rand(100000, 999999);
+        $id     = $results->results[0]->id;
+        $params = [
+            ':id'   => $id,
+            ':code' => $code,
+        ];
+
+        $results = $this->non_query('UPDATE agents SET code = :code WHERE id = :id', $params);
+
+        return [
+            'status' => 'success',
+            'id'     => $id,
+            'code'   => $code,
+        ];
+    }
 }
