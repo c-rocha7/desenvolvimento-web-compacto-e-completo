@@ -17,7 +17,6 @@
                 <div class="col-sm-6 col-12 p-1">
                     <div class="card p-3">
                         <h4><i class="fa-solid fa-users me-2"></i>Clientes dos agentes</h4>
-                        
                         <?php if (0 == count($agents)) { ?>
                             <p class="text-center">Não foram encontrados dados.</p>
                         <?php } else { ?>
@@ -25,26 +24,29 @@
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Agente</th>
-                                        <th class="text-center">Clientes registrados</th>
+                                        <th class="text-center">Clientes registados</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($agents as $agent) { ?>
                                         <tr>
-                                            <td><?php echo $agent->name; ?></td>
+                                            <td><?php echo $agent->agente; ?></td>
                                             <td class="text-center"><?php echo $agent->total_clientes; ?></td>
                                         </tr>
-                                    <?php }?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         <?php } ?>
-
                     </div>
                 </div>
                 <div class="col-sm-6 col-12 p-1">
                     <div class="card p-3">
                         <h4><i class="fa-solid fa-users me-2"></i>Gráfico</h4>
-                        <canvas id="chartjs_chart" height="300px"></canvas>
+                        <?php if (empty($chart_totals)) { ?>
+                            <canvas id="chartjs_chart" height="14px"></canvas>
+                        <?php } else { ?>
+                            <canvas id="chartjs_chart" height="400px"></canvas>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -76,11 +78,11 @@
                                     </tr>
                                     <tr>
                                         <td class="text-start">Idade do cliente mais novo:</td>
-                                        <td class="text-start"><strong><?php echo $global_stats['younger_client']->value; ?></strong></td>
+                                        <td class="text-start"><strong><?php echo !empty($global_stats['younger_client']->value) ? $global_stats['younger_client']->value : '-'; ?></strong></td>
                                     </tr>
                                     <tr>
                                         <td class="text-start">Idade do cliente mais velho:</td>
-                                        <td class="text-start"><strong><?php echo $global_stats['oldest_client']->value; ?></strong></td>
+                                        <td class="text-start"><strong><?php echo !empty($global_stats['oldest_client']->value) ? $global_stats['oldest_client']->value : '-'; ?></strong></td>
                                     </tr>
                                     <tr>
                                         <td class="text-start">Média de idades dos clientes:</td>
@@ -112,19 +114,16 @@
                     <a href="?ct=main&mt=index" class="btn btn-secondary px-4"><i class="fa-solid fa-chevron-left me-2"></i>Voltar</a>
                 </div>
             </div>
-                
-            </div>
+
         </div>
     </div>
 </div>
 
 <script>
-
-    // datatables
     $(document).ready(function() {
 
         // datatable
-        $('#table_clients').DataTable({
+        $('#table_agents').DataTable({
             pageLength: 10,
             pagingType: "full_numbers",
             language: {
@@ -177,5 +176,4 @@
             }
         );
     <?php } ?>
-
 </script>

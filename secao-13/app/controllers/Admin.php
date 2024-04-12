@@ -198,8 +198,16 @@ class Admin extends BaseController
         $html .= '<tr><td>Total clientes:</td><td style="text-align: right;">'.$global_stats['total_clients']->value.'</td></tr>';
         $html .= '<tr><td>Total clientes removidos:</td><td style="text-align: right;">'.$global_stats['total_deleted_clients']->value.'</td></tr>';
         $html .= '<tr><td>Média de clientes por agente:</td><td style="text-align: right;">'.sprintf('%.2f', $global_stats['average_clients_per_agent']->value).'</td></tr>';
-        $html .= '<tr><td>Idade do cliente mais novo:</td><td style="text-align: right;">'.$global_stats['younger_client']->value.' anos.</td></tr>';
-        $html .= '<tr><td>Idade do cliente mais velho:</td><td style="text-align: right;">'.$global_stats['oldest_client']->value.' anos.</td></tr>';
+        if (empty($global_stats['younger_client']->value)) {
+            $html .= '<tr><td>Idade do cliente mais novo:</td><td style="text-align: right;">-</td></tr>';
+        } else {
+            $html .= '<tr><td>Idade do cliente mais novo:</td><td style="text-align: right;">'.$global_stats['younger_client']->value.' anos.</td></tr>';
+        }
+        if (empty($global_stats['older_client']->value)) {
+            $html .= '<tr><td>Idade do cliente mais velho:</td><td style="text-align: right;">-</td></tr>';
+        } else {
+            $html .= '<tr><td>Idade do cliente mais velho:</td><td style="text-align: right;">'.$global_stats['oldest_client']->value.' anos.</td></tr>';
+        }
         $html .= '<tr><td>Percentagem de homens:</td><td style="text-align: right;">'.$global_stats['percentage_males']->value.' %</td></tr>';
         $html .= '<tr><td>Percentagem de mulheres:</td><td style="text-align: right;">'.$global_stats['percentage_females']->value.' %</td></tr>';
 

@@ -45,10 +45,20 @@ class AdminModel extends BaseModel
         $results['average_clients_per_agent'] = $this->query("SELECT (total_persons / total_agents) value FROM (SELECT (SELECT COUNT(*) FROM persons) total_persons, (SELECT COUNT(*) FROM agents WHERE PROFILE = 'agent') total_agents  a")->results[0];
 
         // younger client
-        $results['younger_client'] = $this->query('SELECT TIMESTAMPDIFF(YEAR,birthdate,CURDATE()) value FROM persons ORDER BY birthdate DESC LIMIT 1')->results[0];
+        $tmp = $this->query('SELECT TIMESTAMPDIFF(YEAR,birthdate,CURDATE()) value FROM persons ORDER BY birthdate DESC LIMIT 1');
+        if (0 == $tmp->affected_rows) {
+            $results['younger_client'] = null;
+        } else {
+            $results['younger_client'] = $tmp->results[0];
+        }
 
         // oldest client
-        $results['oldest_client'] = $this->query('SELECT TIMESTAMPDIFF(YEAR,birthdate,CURDATE()) value FROM persons ORDER BY birthdate ASC LIMIT 1')->results[0];
+        $tmp = $this->query('SELECT TIMESTAMPDIFF(YEAR,birthdate,CURDATE()) value FROM persons ORDER BY birthdate ASC LIMIT 1');
+        if (0 == $tmp->affected_rows) {
+            $results['oldest_client'] = null;
+        } else {
+            $results['oldest_client'] = $tmp->results[0];
+        }
 
         // average age between all clients
         $results['average_age'] = $this->query('SELECT AVG(TIMESTAMPDIFF(YEAR,birthdate,CURDATE())) value FROM persons')->results[0];

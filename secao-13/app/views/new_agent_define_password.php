@@ -11,7 +11,7 @@
                 <div class="row justify-content-center">
                     <div class="col-8">
 
-                        <form action="?ct=main&mt=define_password_submit" method="post" novalidate>
+                        <form action="?ct=main&mt=define_password_submit" method="post" >
 
                             <input type="hidden" name="purl" value="<?php echo $purl; ?>">
                             <input type="hidden" name="id" value="<?php echo aes_encrypt($id); ?>">
