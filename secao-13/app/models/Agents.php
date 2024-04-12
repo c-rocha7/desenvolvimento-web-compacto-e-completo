@@ -301,4 +301,26 @@ class Agents extends BaseModel
             'code'   => $code,
         ];
     }
+
+    // =======================================================
+    public function check_if_reset_code_is_correct($id, $code)
+    {
+        // check if the reset code is equal to the code stored in the agent row
+        $params = [
+            ':id'   => $id,
+            ':code' => $code,
+        ];
+        $this->db_connect();
+        $results = $this->query('SELECT id FROM agents WHERE id = :id AND code = :code', $params);
+
+        if (0 == $results->affected_rows) {
+            return [
+                'status' => false,
+            ];
+        } else {
+            return [
+                'status' => true,
+            ];
+        }
+    }
 }
