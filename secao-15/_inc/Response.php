@@ -6,6 +6,7 @@ class Response
     private $error_message;
     private $response_data;
     private $integration_key;
+    private $adicional_field = [];
 
     public function __construct()
     {
@@ -35,6 +36,13 @@ class Response
         $this->integration_key = $key;
     }
 
+    public function set_adicional_field($field_name, $field_value)
+    {
+        if (!key_exists($field_name, $this->adicional_field)) {
+            $this->adicional_field[$field_name] = $field_value;
+        }
+    }
+
     public function response()
     {
         $tmp           = [];
@@ -42,7 +50,15 @@ class Response
         if (!empty($this->error_message)) {
             $tmp['error_message'] = $this->error_message;
         }
-        $tmp['data']          = $this->response_data;
+        $tmp['data'] = $this->response_data;
+
+        // adicional fields
+        if (!empty($this->adicional_field)) {
+            foreach ($this->adicional_field as $key => $value) {
+                $tmp[$key] = $value;
+            }
+        }
+
         $tmp['time_response'] = time();
         $tmp['api_version']   = API_VERSION;
 
