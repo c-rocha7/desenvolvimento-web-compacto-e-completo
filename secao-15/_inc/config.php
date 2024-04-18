@@ -1,9 +1,9 @@
 <?php
 
-define('API_VERSION', '1.0.0');
+define('API_VERSION', 'v1.0.0');
 
 // api enabled or disabled
-define('API_ENABLED', true);
+define('API_ACTIVE', true);
 define('API_MESSAGE', '');
 
 // mysql config
