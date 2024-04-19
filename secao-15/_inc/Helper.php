@@ -18,6 +18,23 @@ function check_integration_key_get()
     }
 }
 
+function check_integration_key_json($data)
+{
+    if (key_exists('integration_key', $data)) {
+        global $res;
+        $res->set_integration_key($data['integration_key']);
+    }
+}
+
+function check_required_fields_in_json($data, $fields)
+{
+    foreach ($fields as $key) {
+        if (!key_exists($key, $data)) {
+            return false;
+        }
+    }
+}
+
 function missing_request_parameter($parameter)
 {
     global $res;
