@@ -59,6 +59,11 @@ class Response
             }
         }
 
+        // integration key
+        if (!empty($this->integration_key)) {
+            $tmp['integration_key'] = $this->integration_key;
+        }
+
         $tmp['time_response'] = time();
         $tmp['api_version']   = API_VERSION;
 
