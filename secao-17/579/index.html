@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax</title>
+  </head>
+  <body>
+    <h3>Vamos apresentar uma imagem via Ajax</h3>
+
+    <button id="btn1">Imagem 1</button>
+    <button id="btn2">Imagem 2</button>
+
+    <div>
+      <img src="" id="img1" />
+    </div>
+
+    <div>
+      <img src="" id="img2" />
+    </div>
+
+    <script>
+      // carregar a imagem como um recurso web estático
+      document.querySelector("#btn1").addEventListener("click", () => {
+        document
+          .querySelector("#img1")
+          .setAttribute(
+            "src",
+            "http://localhost/secao-17/recursos_online/imagens/img1.jpg"
+          );
+      });
+
+      // carregar a imagem como um recurso via Ajax
+      document.querySelector("#bnt2").addEventListener("click", () => {
+        fetch("http://localhost/secao-17/recursos_online/imagens/img2.jpg")
+          .then((response) => {
+            if (response.status === 200) {
+              return response.blob();
+            } else {
+              throw Error("Não foi encontrado a imagem");
+            }
+          })
+          .then((imagem) => {
+            const img = URL.createObjectURL(imagem);
+            document.querySelector("#img2").setAttribute("src", img);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      });
+    </script>
+  </body>
+</html>
