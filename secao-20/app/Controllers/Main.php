@@ -13,7 +13,7 @@ class Main extends BaseController
     {
         // echo 'Hello World!';
 
-        $model_usuarios = new UsuariosModel();
+        /* $model_usuarios = new UsuariosModel();
         $usuarios = $model_usuarios->findAll();
 
         // dd($usuarios);
@@ -30,6 +30,8 @@ class Main extends BaseController
         // ou
         echo '<pre>';
         print_r($tasks);
-        echo '</pre>';
+        echo '</pre>'; */
+
+        return view('teste');
     }
 }
