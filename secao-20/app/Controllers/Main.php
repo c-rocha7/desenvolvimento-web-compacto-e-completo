@@ -11,28 +11,7 @@ class Main extends BaseController
 {
     public function index()
     {
-        // echo 'Hello World!';
-
-        /* $model_usuarios = new UsuariosModel();
-        $usuarios = $model_usuarios->findAll();
-
-        // dd($usuarios);
-        // ou
-        echo '<pre>';
-        print_r($usuarios);
-        echo '</pre>';
-
-        // tasks
-        $model_tasks = new TasksModel();
-        $tasks = $model_tasks->findAll();
-
-        // dd($tasks);
-        // ou
-        echo '<pre>';
-        print_r($tasks);
-        echo '</pre>'; */
-
-        // return view('teste');
+        // index
     }
 
     public function login()
@@ -42,6 +21,16 @@ class Main extends BaseController
 
     public function login_submit()
     {
-        echo 'login submit';
+        $usuario = $this->request->getPost('text_usuario');
+        $senha = $this->request->getPost('text_senha');
+
+        if (empty($usuario) || empty($senha)) {
+            return redirect()->to('login')->withInput()->with('error', 'Usuário e senha obrigatórios.');
+        }
+
+        echo 'Usuário: ' . $usuario . '<br>';
+        echo 'Senha: ' . $senha . '<br>';
+
+        // como fazemos para validar o usuário e senha?
     }
 }
