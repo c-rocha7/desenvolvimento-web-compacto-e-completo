@@ -14,3 +14,15 @@ Stack trace:
 #11 D:\workspace\courses\udemy\desenvolvimento-web-compacto-e-completo\secao-20\system\Boot.php(104): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
 #12 D:\workspace\courses\udemy\desenvolvimento-web-compacto-e-completo\secao-20\spark(84): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
 #13 {main}
+CRITICAL - 2024-05-13 19:05:43 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "teste.php"
+[Method: GET, Route: /]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('teste.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('teste', [], true)
+ 3 APPPATH\Controllers\Main.php(35): view('teste')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Main->index()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Main))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(312): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

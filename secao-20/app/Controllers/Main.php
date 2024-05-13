@@ -32,6 +32,16 @@ class Main extends BaseController
         print_r($tasks);
         echo '</pre>'; */
 
-        return view('teste');
+        // return view('teste');
+    }
+
+    public function login()
+    {
+        return view('login_frm');
+    }
+
+    public function login_submit()
+    {
+        echo 'login submit';
     }
 }

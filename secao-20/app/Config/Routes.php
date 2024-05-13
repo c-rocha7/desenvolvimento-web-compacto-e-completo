@@ -7,3 +7,5 @@ use CodeIgniter\Router\RouteCollection;
  */
 
  $routes->get('/', 'Main::index');
+$routes->get('/login', 'Main::login');
+$routes->post('/login_submit', 'Main::login_submit');
