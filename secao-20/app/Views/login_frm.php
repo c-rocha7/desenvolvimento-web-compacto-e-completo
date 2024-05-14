@@ -26,6 +26,12 @@
 
 					<?php echo form_close(); ?>
 
+					<?php if (!empty($login_error)) { ?>
+						<div class="alert alert-danger text-center p-1">
+							<?php echo $login_error; ?>
+						</div>
+					<?php } ?>
+
 				</div>
 			</div>
 		</div>
