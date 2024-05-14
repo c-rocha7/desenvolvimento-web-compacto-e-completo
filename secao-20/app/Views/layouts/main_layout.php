@@ -14,6 +14,11 @@
 	</head>
 	<body>
 		
+		<!-- render top bar when logged in -->
+		<?php if (session()->has('id')) { ?>
+			<?php echo $this->include('layouts/top_bar'); ?>
+		<?php } ?>
+
 		<!-- render section -->
 		<?php echo $this->renderSection('content'); ?>
 

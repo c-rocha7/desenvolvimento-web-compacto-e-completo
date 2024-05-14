@@ -8,11 +8,9 @@ class Main extends BaseController
 {
     public function index()
     {
-        if (session()->has('id')) {
-            echo 'Logado';
-        } else {
-            echo 'Não logado';
-        }
+        // main page
+        $data = [];
+        return view('main', $data);
     }
 
     public function login()
