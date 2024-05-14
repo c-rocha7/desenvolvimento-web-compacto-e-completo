@@ -1,0 +1,48 @@
+CRITICAL - 2024-05-14 13:45:50 --> TypeError: str_contains(): Argument #1 ($haystack) must be of type string, int given
+[Method: POST, Route: login_submit]
+in SYSTEMPATH\Validation\Validation.php on line 172.
+ 1 SYSTEMPATH\Validation\Validation.php(172): str_contains(0, '*')
+ 2 SYSTEMPATH\Controller.php(137): CodeIgniter\Validation\Validation->run()
+ 3 APPPATH\Controllers\Main.php(23): CodeIgniter\Controller->validate([...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Main->login_submit()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Main))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(312): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-05-14 13:46:12 --> TypeError: str_contains(): Argument #1 ($haystack) must be of type string, int given
+[Method: POST, Route: login_submit]
+in SYSTEMPATH\Validation\Validation.php on line 172.
+ 1 SYSTEMPATH\Validation\Validation.php(172): str_contains(0, '*')
+ 2 SYSTEMPATH\Controller.php(137): CodeIgniter\Validation\Validation->run()
+ 3 APPPATH\Controllers\Main.php(23): CodeIgniter\Controller->validate([...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Main->login_submit()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Main))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(312): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-05-14 13:48:31 --> TypeError: str_contains(): Argument #1 ($haystack) must be of type string, int given
+[Method: POST, Route: login_submit]
+in SYSTEMPATH\Validation\Validation.php on line 172.
+ 1 SYSTEMPATH\Validation\Validation.php(172): str_contains(0, '*')
+ 2 SYSTEMPATH\Controller.php(137): CodeIgniter\Validation\Validation->run()
+ 3 APPPATH\Controllers\Main.php(23): CodeIgniter\Controller->validate([...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Main->login_submit()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Main))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(312): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-05-14 13:48:53 --> TypeError: str_contains(): Argument #1 ($haystack) must be of type string, int given
+[Method: POST, Route: login_submit]
+in SYSTEMPATH\Validation\Validation.php on line 172.
+ 1 SYSTEMPATH\Validation\Validation.php(172): str_contains(0, '*')
+ 2 SYSTEMPATH\Controller.php(137): CodeIgniter\Validation\Validation->run()
+ 3 APPPATH\Controllers\Main.php(23): CodeIgniter\Controller->validate([...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Main->login_submit()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Main))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(312): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

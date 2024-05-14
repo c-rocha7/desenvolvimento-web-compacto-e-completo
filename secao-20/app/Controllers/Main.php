@@ -2,11 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
-use App\Models\TasksModel;
-use App\Models\UsuariosModel;
-use CodeIgniter\HTTP\ResponseInterface;
-
 class Main extends BaseController
 {
     public function index()
@@ -21,16 +16,31 @@ class Main extends BaseController
 
     public function login_submit()
     {
-        $usuario = $this->request->getPost('text_usuario');
-        $senha = $this->request->getPost('text_senha');
+        // form validation
+        $validation = $this->validate([
+            // validation rules
+            [
+                'text_usuario' => 'required',
+                'text_senha'   => 'required',
+            ],
+            // validation errors
+            [
+                'text_usuario' => [
+                    'required' => 'O campo usuário é obrigatório',
+                ],
+                'text_senha' => [
+                    'required' => 'O campo senha é obrigatória',
+                ],
+            ],
+        ]);
 
-        if (empty($usuario) || empty($senha)) {
-            return redirect()->to('login')->withInput()->with('error', 'Usuário e senha obrigatórios.');
+        if (!$validation) {
+            return redirect()->to('/login')->withInput()->with('validation_errors', $this->validator->getErrors());
         }
 
-        echo 'Usuário: ' . $usuario . '<br>';
-        echo 'Senha: ' . $senha . '<br>';
+        $usuario = $this->request->getPost('text_usuario');
+        $senha   = $this->request->getPost('text_senha');
 
-        // como fazemos para validar o usuário e senha?
+        dd([$usuario, $senha]);
     }
 }
