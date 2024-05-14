@@ -17,7 +17,7 @@ class Main extends BaseController
     public function login_submit()
     {
         // form validation
-        $validation = $this->validate([
+        $validation = $this->validate(
             // validation rules
             [
                 'text_usuario' => 'required',
@@ -29,13 +29,13 @@ class Main extends BaseController
                     'required' => 'O campo usuário é obrigatório',
                 ],
                 'text_senha' => [
-                    'required' => 'O campo senha é obrigatória',
+                    'required' => 'O campo senha é obrigatório',
                 ],
-            ],
-        ]);
+            ]
+        );
 
         if (!$validation) {
-            return redirect()->to('/login')->withInput()->with('validation_errors', $this->validator->getErrors());
+            return redirect()->to('login')->withInput()->with('validation_errors', $this->validator->getErrors());
         }
 
         $usuario = $this->request->getPost('text_usuario');
