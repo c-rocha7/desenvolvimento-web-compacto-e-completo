@@ -35,7 +35,7 @@ use CodeIgniter\HTTP\SiteURI;
 
 		<div class="col text-end">
 			<!-- new task button -->
-			<a href="<?php echo site_url('new') ?>" class="btn btn-primary"><i class="fa-solid fa-plus me-2"></i>Nova Tarefa</a>
+			<a href="<?php echo site_url('new_task') ?>" class="btn btn-primary"><i class="fa-solid fa-plus me-2"></i>Nova Tarefa</a>
 		</div>
 	</div>
 </section>

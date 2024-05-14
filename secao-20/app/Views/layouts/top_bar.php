@@ -6,7 +6,7 @@
 		<div class="col p-4 text-end">
 			<i class="fa-regular fa-user me-2"></i><?php echo session()->usuario(); ?>
 			<span class="opacity-50 mx-3">|</span>
-			<a href="" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
+			<a href="<?php echo site_url('logout'); ?>" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
 		</div>
 	</div>
 </header>
