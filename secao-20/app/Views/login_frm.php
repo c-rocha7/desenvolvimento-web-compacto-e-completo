@@ -23,6 +23,16 @@
 						</div>
 
 					<?php echo form_close(); ?>
+
+					<?php if (!empty($validation_errors)) { ?>
+						<div class="alert alert-danger">
+							<ul>
+								<?php foreach ($validation_errors as $error) { ?>
+									<li><?php echo $error; ?></li>
+								<?php } ?>
+							</ul>
+						</div>
+					<?php } ?>
 					
 				</div>
 			</div>

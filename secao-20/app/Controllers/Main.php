@@ -11,7 +11,15 @@ class Main extends BaseController
 
     public function login()
     {
-        return view('login_frm');
+        $data = [];
+
+        // check for validation errors
+        $validation_errors = session()->getFlashdata('validation_errors');
+        if ($validation_errors) {
+            $data['validation_errors'] = $validation_errors;
+        }
+
+        return view('login_frm', $data);
     }
 
     public function login_submit()
