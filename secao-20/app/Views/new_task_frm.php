@@ -6,7 +6,7 @@
 		<div class="col">
 			<h3>Nova Tarefa</h3>
 			<hr>
-			<?php echo form_open('new_task_submit'); ?>
+			<?php echo form_open('new_task_submit', ['novalidate' => true]); ?>
 				<div class="mb-3">
 					<label class="form-label">Nome da tarefa</label>
 					<input type="text" name="text_tarefa" class="form-control" placeholder="Nome da tarefa" required value="<?php old('text_tarefa', ''); ?>">
@@ -22,6 +22,18 @@
 				</div>
 				
 			<?php echo form_close(); ?>
+
+			<?php if (!empty($validation_errors)) { ?>
+				<div class="alert alert-danger mt-3">
+					<ul>
+						<?php foreach ($validation_errors as $error) { ?>
+							<li><?php echo $error; ?></li>
+						<?php } ?>
+					</ul>
+				</div>
+			<?php } ?>
+			
+
 		</div>
 	</div>
 </div>

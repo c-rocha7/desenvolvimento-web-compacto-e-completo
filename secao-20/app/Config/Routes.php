@@ -13,7 +13,7 @@ $routes->get('/logout', 'Main::logout');
 
 // new task
 $routes->get('/new_task', 'Main::new_task');
-$routes->post('/new_task', 'Main::new_task_submit');
+$routes->post('/new_task_submit', 'Main::new_task_submit');
 
 // temp
 $routes->get('/sessao', 'Main::sessao');

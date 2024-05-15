@@ -96,12 +96,49 @@ class Main extends BaseController
 
     public function new_task()
     {
-        return view('new_task_frm');
+        $data = [];
+
+        // check for validation errors
+        $validation_errors = session()->getFlashdata('validation_errors');
+        if ($validation_errors) {
+            $data['validation_errors'] = $validation_errors;
+        }
+
+        return view('new_task_frm', $data);
     }
 
     public function new_task_submit()
     {
-        echo 'new task submit';
+        // form validation
+        $validation = $this->validate([
+            'text_tarefa' => [
+                'label'  => 'Nome da tarefa',
+                'rules'  => 'required | min_length[5] | max_length[200]',
+                'errors' => [
+                    'required'   => 'O campo {field} é obrigatório',
+                    'min_length' => 'O campo {field} deve ter no mínimo {param} caracteres',
+                    'max_length' => 'O campo {field} deve ter no máximo {param} caracteres',
+                ],
+            ],
+            'text_descricao' => [
+                'label'  => 'Descrição',
+                'rules'  => 'max_length[500]',
+                'errors' => [
+                    'max_length' => 'O campo {field} deve ter no máximo {param} caracteres',
+                ],
+            ],
+        ]);
+
+        if (!$validation) {
+            return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
+        }
+
+        // get form data
+        $titulo    = $this->request->getPost('text_tarefa');
+        $descricao = $this->request->getPost('text_descricao');
+
+        // save data
+        echo 'FIM';
     }
 
     public function sessao()
