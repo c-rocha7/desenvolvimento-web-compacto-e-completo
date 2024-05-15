@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\TasksModel;
 use App\Models\UsuariosModel;
 
 class Main extends BaseController
@@ -138,7 +139,16 @@ class Main extends BaseController
         $descricao = $this->request->getPost('text_descricao');
 
         // save data
-        echo 'FIM';
+        $tasks_model = new TasksModel();
+        $tasks_model->insert([
+            'id_user'          => session()->get('id'),
+            'task_name'        => $titulo,
+            'task_description' => $descricao,
+            'task_status'      => 'new',
+        ]);
+
+        // redirect to home page
+        return redirect()->to('/');
     }
 
     public function sessao()
