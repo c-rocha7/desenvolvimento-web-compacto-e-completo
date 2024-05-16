@@ -156,6 +156,21 @@ class Main extends BaseController
         return redirect()->to('/');
     }
 
+    public function search()
+    {
+        $data = [];
+
+        // get search items
+        $search_term = $this->request->getPost('text_search');
+
+        // load tasks from database and the search term
+        $tasks_model = new TasksModel();
+        $data['tasks'] = $tasks_model->where('id_user', session()->id)->like('task_name', $search_term)->findAll();
+        $data['datatables'] = true;
+
+        return view('main', $data);
+    }
+
     public function sessao()
     {
         echo '<pre>';
