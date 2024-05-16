@@ -13,8 +13,9 @@ class Main extends BaseController
         $data = [];
 
         // load tasks from database and the user in session
-        $tasks_model   = new TasksModel();
-        $data['tasks'] = $tasks_model->where('id_user', session()->id)->findAll();
+        $tasks_model        = new TasksModel();
+        $data['tasks']      = $tasks_model->where('id_user', session()->id)->findAll();
+        $data['datatables'] = true;
 
         return view('main', $data);
     }
