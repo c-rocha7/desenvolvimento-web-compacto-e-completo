@@ -192,6 +192,11 @@ class Main extends BaseController
         return view('main', $data);
     }
 
+    public function edit_task($enc_id)
+    {
+        echo decrypt($enc_id);
+    }
+
     public function sessao()
     {
         echo '<pre>';

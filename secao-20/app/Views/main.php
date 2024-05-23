@@ -51,8 +51,8 @@
                                 <td><?php echo $task->task_name; ?></td>
                                 <td class="text-center"><?php echo STATUS_LIST[$task->task_status]; ?></td>
                                 <td class="text-end">
-                                    <a href="<?php echo site_url('edit_task/'.$task->id); ?>" class="btn btn-primary btn-sm"><i class="fa-solid fa-edit"></i></a>
-                                    <a href="<?php echo site_url('delete_task/'.$task->id); ?>" class="btn btn-primary btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="<?php echo site_url('edit_task/'.encrypt($task->id)); ?>" class="btn btn-primary btn-sm"><i class="fa-solid fa-edit"></i></a>
+                                    <a href="<?php echo site_url('delete_task/'.encrypt($task->id)); ?>" class="btn btn-primary btn-sm"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php } ?>
