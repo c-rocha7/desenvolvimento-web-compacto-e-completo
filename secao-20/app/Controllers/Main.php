@@ -194,7 +194,40 @@ class Main extends BaseController
 
     public function edit_task($enc_id)
     {
-        echo decrypt($enc_id);
+        // descrypt task id
+        $task_id = decrypt($enc_id);
+        if (!$task_id) {
+            return redirect()->to('/');
+        }
+
+        $data = [];
+
+        // check for validation errors
+        $validation_errors = session()->getFlashdata('validation_errors');
+        if ($validation_errors) {
+            $data['validation_errors'] = $validation_errors;
+        }
+
+        // load task data
+        $tasks_model = new TasksModel();
+        $task_data = $tasks_model->where('id', $task_id)->first();
+        if (!$task_data) {
+            return redirect()->to('/');
+        }
+
+        // check if task belongs to user in the session
+        if ($task_data->id_user != session()->id) {
+            return redirect()->to('/');
+        }
+
+        $data['task'] = $task_data;
+
+        return view('edit_task_frm', $data);
+    }
+
+    public function edit_task_submit()
+    {
+        echo 'AQUI';
     }
 
     public function sessao()

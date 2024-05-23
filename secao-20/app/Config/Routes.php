@@ -21,6 +21,7 @@ $routes->get('/filter/(:alpha)', 'Main::filter/$1');
 
 // edit task
 $routes->get('/edit_task/(:alphanum)', 'Main::edit_task/$1');
+$routes->post('/edit_task_submit', 'Main::edit_task_submit');
 
 // temp
 $routes->get('/sessao', 'Main::sessao');
