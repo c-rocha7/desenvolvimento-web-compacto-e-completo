@@ -171,6 +171,27 @@ class Main extends BaseController
         return view('main', $data);
     }
 
+    public function filter($status)
+    {
+        $data = [];
+
+        // load tasks from user and with status x
+        $tasks_model = new TasksModel();
+        if ($status == 'all') {
+            $data['tasks'] = $tasks_model->where('id_user', session()->id)->findAll();
+        } else {
+            $data['tasks'] = $tasks_model
+                ->where('id_user', session()->id)
+                ->where('task_status', $status)
+                ->findAll();
+        }
+        $data['datatables'] = true;
+
+        $data['status'] = $status;
+
+        return view('main', $data);
+    }
+
     public function sessao()
     {
         echo '<pre>';

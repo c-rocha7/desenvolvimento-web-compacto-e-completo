@@ -16,7 +16,6 @@
 
         <div class="col">
             <!-- status filter -->
-            <?php echo form_open('filter'); ?>
             <div class="d-flex mb-3 align-items-center">
                 <label class="me-3">Status:</label>
                 <select name="select_status" class="form-select">
@@ -25,7 +24,6 @@
                     <?php } ?>
                 </select>
             </div>
-            <?php echo form_close(); ?>
         </div>
         <div class="col text-end">
             <!-- new task button -->
@@ -75,27 +73,31 @@
 
 
 <!-- datatables -->
-<?php if (count($tasks) > 0) { ?>
-    <script>
-        $(document).ready(function() {
-            $('#table_tasks').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "zeroRecords": "Nada encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": "Pesquisar:",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    },
-                }
-            });
+<script>
+    $(document).ready(function() {
+        $('#table_tasks').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                "search": "Pesquisar:",
+                "paginate": {
+                    "first": "Primeiro",
+                    "last": "Último",
+                    "next": "Próximo",
+                    "previous": "Anterior"
+                },
+            }
         });
-    </script>
-<?php } ?>
+    });
+
+    // filter change
+    document.querySelector('select[name="select_status"]').addEventListener('change', (e) => {
+        let status = e.target.value;
+        window.location.href = '<?php echo site_url('filter'); ?>/' + status;
+    });
+</script>
 
 <?php echo $this->endSection(); ?>
