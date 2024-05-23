@@ -20,7 +20,7 @@
                 <label class="me-3">Status:</label>
                 <select name="select_status" class="form-select">
                     <?php foreach (STATUS_LIST as $key => $value) { ?>
-                        <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <option value="<?php echo $key; ?>" <?php echo check_status($key, !empty($status) ? $status : ''); ?> ><?php echo $value; ?></option>
                     <?php } ?>
                 </select>
             </div>
