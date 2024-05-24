@@ -377,11 +377,4 @@ class Main extends BaseController
 
         return view('task_details', $data);
     }
-
-    public function sessao()
-    {
-        echo '<pre>';
-        print_r(session()->get());
-        echo '</pre>';
-    }
 }
