@@ -92,3 +92,16 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+// ====================================================
+// Custom Constants
+// ====================================================
+define('APP_NAME', 'Gestor de Tarefas');
+define('STATUS_LIST', [
+	'all' => 'Tudo',
+	'new' => 'Nova',
+	'started' => 'Iniciada',
+	'paused' => 'Pausada',
+	'cancelled' => 'Cancelada',
+	'finished' => 'Finalizada',
+]);
