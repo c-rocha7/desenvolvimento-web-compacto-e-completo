@@ -22,6 +22,11 @@ class Main extends BaseController
 
     public function login()
     {
+        // check if there is an active session
+        if (session()->has('id')) {
+            return redirect()->to('/');
+        }
+
         $data = [];
 
         // check for validation errors
@@ -164,8 +169,8 @@ class Main extends BaseController
         $search_term = $this->request->getPost('text_search');
 
         // load tasks from database and the search term
-        $tasks_model = new TasksModel();
-        $data['tasks'] = $tasks_model->where('id_user', session()->id)->like('task_name', $search_term)->findAll();
+        $tasks_model        = new TasksModel();
+        $data['tasks']      = $tasks_model->where('id_user', session()->id)->like('task_name', $search_term)->findAll();
         $data['datatables'] = true;
 
         return view('main', $data);
@@ -177,7 +182,7 @@ class Main extends BaseController
 
         // load tasks from user and with status x
         $tasks_model = new TasksModel();
-        if ($status == 'all') {
+        if ('all' == $status) {
             $data['tasks'] = $tasks_model->where('id_user', session()->id)->findAll();
         } else {
             $data['tasks'] = $tasks_model
@@ -210,7 +215,7 @@ class Main extends BaseController
 
         // load task data
         $tasks_model = new TasksModel();
-        $task_data = $tasks_model->where('id', $task_id)->first();
+        $task_data   = $tasks_model->where('id', $task_id)->first();
         if (!$task_data) {
             return redirect()->to('/');
         }
@@ -230,70 +235,70 @@ class Main extends BaseController
         // form validation
         $validation = $this->validate([
             'hidden_id' => [
-                'label' => 'ID',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'O campo {field} é obrigatório.'
-                ]
-            ],
-            'text_tarefa' => [
-                'label' => 'Nome da tarefa',
-                'rules' => 'required|min_length[5]|max_length[200]',
+                'label'  => 'ID',
+                'rules'  => 'required',
                 'errors' => [
                     'required' => 'O campo {field} é obrigatório.',
+                ],
+            ],
+            'text_tarefa' => [
+                'label'  => 'Nome da tarefa',
+                'rules'  => 'required|min_length[5]|max_length[200]',
+                'errors' => [
+                    'required'   => 'O campo {field} é obrigatório.',
                     'min_length' => 'O campo {field} deve ter no mínimo {param} caracteres.',
                     'max_length' => 'O campo {field} deve ter no máximo {param} caracteres.',
-                ]
+                ],
             ],
             'text_descricao' => [
-                'label' => 'Descrição',
-                'rules' => 'max_length[500]',
+                'label'  => 'Descrição',
+                'rules'  => 'max_length[500]',
                 'errors' => [
                     'max_length' => 'O campo {field} deve ter no máximo {param} caracteres.',
-                ]
+                ],
             ],
             'select_status' => [
-                'label' => 'Status',
-                'rules' => 'required',
+                'label'  => 'Status',
+                'rules'  => 'required',
                 'errors' => [
-                    'required' => 'O campo {field} é obrigatório.'
-                ]
-            ]
+                    'required' => 'O campo {field} é obrigatório.',
+                ],
+            ],
         ]);
 
-        if(!$validation){
+        if (!$validation) {
             return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
         }
 
         // get form data
         $task_id = decrypt($this->request->getPost('hidden_id'));
-        if(!$task_id){
+        if (!$task_id) {
             return redirect()->to('/');
         }
 
-        $tarefa = $this->request->getPost('text_tarefa');
+        $tarefa    = $this->request->getPost('text_tarefa');
         $descricao = $this->request->getPost('text_descricao');
-        $status = $this->request->getPost('select_status');
+        $status    = $this->request->getPost('select_status');
 
         // load task data
         $tasks_model = new TasksModel();
-        $task_data = $tasks_model->where('id', $task_id)->first();
-        if(!$task_data){
+        $task_data   = $tasks_model->where('id', $task_id)->first();
+        if (!$task_data) {
             return redirect()->to('/');
         }
-        
+
         // check if the task belongs to the user in session
-        if($task_data->id_user != session()->id){
+        if ($task_data->id_user != session()->id) {
             return redirect()->to('/');
         }
 
         // update task in database
         $tasks_model->update($task_id,
-        [
-            'task_name' => $tarefa,
-            'task_description' => $descricao,
-            'task_status' => $status
-        ]);
+            [
+                'task_name'        => $tarefa,
+                'task_description' => $descricao,
+                'task_status'      => $status,
+            ]);
 
         // redirect to home page
         return redirect()->to('/');
@@ -303,19 +308,19 @@ class Main extends BaseController
     {
         // decrypt task id
         $task_id = decrypt($enc_id);
-        if(!$task_id){
+        if (!$task_id) {
             return redirect()->to('/');
         }
 
         // load task data
         $tasks_model = new TasksModel();
-        $task_data = $tasks_model->where('id', $task_id)->first();
-        if(!$task_data){
+        $task_data   = $tasks_model->where('id', $task_id)->first();
+        if (!$task_data) {
             return redirect()->to('/');
         }
 
         // check if the task belongs to the user in session
-        if($task_data->id_user != session()->id){
+        if ($task_data->id_user != session()->id) {
             return redirect()->to('/');
         }
 
@@ -329,19 +334,19 @@ class Main extends BaseController
     {
         // decrypt task id
         $task_id = decrypt($enc_id);
-        if(!$task_id){
+        if (!$task_id) {
             return redirect()->to('/');
         }
 
         // load task data
         $tasks_model = new TasksModel();
-        $task_data = $tasks_model->where('id', $task_id)->first();
-        if(!$task_data){
+        $task_data   = $tasks_model->where('id', $task_id)->first();
+        if (!$task_data) {
             return redirect()->to('/');
         }
 
         // check if the task belongs to the user in session
-        if($task_data->id_user != session()->id){
+        if ($task_data->id_user != session()->id) {
             return redirect()->to('/');
         }
 
@@ -356,19 +361,19 @@ class Main extends BaseController
     {
         // decrypt task id
         $task_id = decrypt($enc_id);
-        if(!$task_id){
+        if (!$task_id) {
             return redirect()->to('/');
         }
 
         // load task data
         $tasks_model = new TasksModel();
-        $task_data = $tasks_model->where('id', $task_id)->first();
-        if(!$task_data){
+        $task_data   = $tasks_model->where('id', $task_id)->first();
+        if (!$task_data) {
             return redirect()->to('/');
         }
 
         // check if the task belongs to the user in session
-        if($task_data->id_user != session()->id){
+        if ($task_data->id_user != session()->id) {
             return redirect()->to('/');
         }
 
