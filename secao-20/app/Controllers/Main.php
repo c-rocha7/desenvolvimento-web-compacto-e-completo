@@ -299,6 +299,59 @@ class Main extends BaseController
         return redirect()->to('/');
     }
 
+    public function delete_task($enc_id)
+    {
+        // decrypt task id
+        $task_id = decrypt($enc_id);
+        if(!$task_id){
+            return redirect()->to('/');
+        }
+
+        // load task data
+        $tasks_model = new TasksModel();
+        $task_data = $tasks_model->where('id', $task_id)->first();
+        if(!$task_data){
+            return redirect()->to('/');
+        }
+
+        // check if the task belongs to the user in session
+        if($task_data->id_user != session()->id){
+            return redirect()->to('/');
+        }
+
+        // display task with question if it is to delete or not delete
+        $data['task'] = $task_data;
+
+        return view('delete_task', $data);
+    }
+
+    public function delete_task_confirm($enc_id)
+    {
+        // decrypt task id
+        $task_id = decrypt($enc_id);
+        if(!$task_id){
+            return redirect()->to('/');
+        }
+
+        // load task data
+        $tasks_model = new TasksModel();
+        $task_data = $tasks_model->where('id', $task_id)->first();
+        if(!$task_data){
+            return redirect()->to('/');
+        }
+
+        // check if the task belongs to the user in session
+        if($task_data->id_user != session()->id){
+            return redirect()->to('/');
+        }
+
+        // delete task
+        $tasks_model->delete($task_id);
+
+        // redirect to home page
+        return redirect()->to('/');
+    }
+
     public function sessao()
     {
         echo '<pre>';
