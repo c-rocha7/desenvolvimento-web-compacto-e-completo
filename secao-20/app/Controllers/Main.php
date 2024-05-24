@@ -227,7 +227,76 @@ class Main extends BaseController
 
     public function edit_task_submit()
     {
-        echo 'AQUI';
+        // form validation
+        $validation = $this->validate([
+            'hidden_id' => [
+                'label' => 'ID',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'O campo {field} é obrigatório.'
+                ]
+            ],
+            'text_tarefa' => [
+                'label' => 'Nome da tarefa',
+                'rules' => 'required|min_length[5]|max_length[200]',
+                'errors' => [
+                    'required' => 'O campo {field} é obrigatório.',
+                    'min_length' => 'O campo {field} deve ter no mínimo {param} caracteres.',
+                    'max_length' => 'O campo {field} deve ter no máximo {param} caracteres.',
+                ]
+            ],
+            'text_descricao' => [
+                'label' => 'Descrição',
+                'rules' => 'max_length[500]',
+                'errors' => [
+                    'max_length' => 'O campo {field} deve ter no máximo {param} caracteres.',
+                ]
+            ],
+            'select_status' => [
+                'label' => 'Status',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'O campo {field} é obrigatório.'
+                ]
+            ]
+        ]);
+
+        if(!$validation){
+            return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
+        }
+
+        // get form data
+        $task_id = decrypt($this->request->getPost('hidden_id'));
+        if(!$task_id){
+            return redirect()->to('/');
+        }
+
+        $tarefa = $this->request->getPost('text_tarefa');
+        $descricao = $this->request->getPost('text_descricao');
+        $status = $this->request->getPost('select_status');
+
+        // load task data
+        $tasks_model = new TasksModel();
+        $task_data = $tasks_model->where('id', $task_id)->first();
+        if(!$task_data){
+            return redirect()->to('/');
+        }
+        
+        // check if the task belongs to the user in session
+        if($task_data->id_user != session()->id){
+            return redirect()->to('/');
+        }
+
+        // update task in database
+        $tasks_model->update($task_id,
+        [
+            'task_name' => $tarefa,
+            'task_description' => $descricao,
+            'task_status' => $status
+        ]);
+
+        // redirect to home page
+        return redirect()->to('/');
     }
 
     public function sessao()
