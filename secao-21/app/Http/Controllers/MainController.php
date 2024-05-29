@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserTaskModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,5 +34,13 @@ class MainController extends Controller
 
         // echo '<pre>';
         // print_r($users);
+
+        // using Eloquent ORM - Using Model
+        $model = new UserTaskModel();
+        $users = $model->all();
+
+        foreach($users as $user){
+            echo $user->username . '<br>';
+        }
     }
 }
