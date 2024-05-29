@@ -8,6 +8,11 @@ class MainController extends Controller
 {
     public function index()
     {
-        echo "Olá Laravel 11";
+        $data = [
+            'title' => 'Olá Laravel 11!',
+            'description' => 'Aprendendo Laravel 11'
+        ];
+
+        return view('main', $data);
     }
 }
