@@ -4,17 +4,4 @@ use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-
-    try {
-        DB::connection()->getPdo();
-        echo "Conexão efetuada com sucesso. " . DB::connection()->getDatabaseName();
-    } catch (\Exception $e) {
-        die('Não foi possível ligar à base de dados. Erro:' . $e->getMessage());
-    }
-
-});
-
-Route::get('/main', [MainController::class, 'index']);
-Route::get('/users', [MainController::class, 'users']);
-Route::get('/view', [MainController::class, 'view']);
+Route::get('/main', [MainController::class, 'index'])->name('index');
