@@ -14,13 +14,22 @@
                 </div>
                 <div class="mb-3">
                     <label for="text_password" class="form-label">Senha</label>
-                    <input type="text" name="text_password" id="text_password" class="form-control" placeholder="Senha"
+                    <input type="password" name="text_password" id="text_password" class="form-control" placeholder="Senha"
                         required>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-dark w-100">Entrar</button>
                 </div>
             </form>
+
+            @if ($errors->any())
+                <div class="alert alert-danger p-2">
+                    @foreach ($errors->all() as $error)
+                        <span>{{ $error }}</span><br>
+                    @endforeach
+                </div>
+            @endif
+
         </div>
     </div>
 @endsection

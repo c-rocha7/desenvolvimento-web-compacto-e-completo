@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class MainController extends Controller
 {
     // =========================================================================
@@ -28,9 +30,20 @@ class MainController extends Controller
         return view('login_frm', $data);
     }
 
-    public function login_submit()
+    public function login_submit(Request $request)
     {
-        // ...
+        // form validation
+        $request->validate([
+            'text_username' => 'required|min:3',
+            'text_password' => 'required|min:3',
+        ], [
+            'text_username.required' => 'O campo é de preenchimento obrigatório',
+            'text_username.min' => 'O campo deve ter no mínimo 3 caracteres',
+            'text_password.required' => 'O campo é de preenchimento obrigatório',
+            'text_password.min' => 'O campo deve ter no mínimo 3 caracteres',
+        ]);
+
+        echo 'formulário com sucesso.';
     }
 
     // =========================================================================
