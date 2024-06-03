@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TaskModel;
 use App\Models\UserTaskModel;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,7 @@ class MainController extends Controller
     {
         $data = [
             'title' => 'Gestor de Tarefas',
+            'tasks' => $this->_get_tasks(),
         ];
 
         return view('main', $data);
@@ -82,5 +84,16 @@ class MainController extends Controller
         session()->forget('username');
 
         return redirect()->route('login');
+    }
+
+    // =========================================================================
+    // private methods
+    // =========================================================================
+    private function _get_tasks()
+    {
+        $model = new TaskModel();
+        return $model->where('id_user_tasks', '=', session()->get('id'))
+            ->whereNull('deleted_at')
+            ->get();
     }
 }
