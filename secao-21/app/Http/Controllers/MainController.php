@@ -87,6 +87,23 @@ class MainController extends Controller
     }
 
     // =========================================================================
+    // new task
+    // =========================================================================
+    public function new_task()
+    {
+        $data = [
+            'title' => 'Nova Tarefa',
+        ];
+
+        return view('new_task_frm', $data);
+    }
+
+    public function new_task_submit()
+    {
+        echo 'guardar nova tarefa';
+    }
+
+    // =========================================================================
     // private methods
     // =========================================================================
     private function _get_tasks()
