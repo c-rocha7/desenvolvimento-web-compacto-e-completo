@@ -4,11 +4,21 @@ namespace App\Http\Controllers;
 
 class MainController extends Controller
 {
+    // =========================================================================
+    // main
+    // =========================================================================
     public function index()
     {
-        echo 'Gestor de Tarefas';
+        $data = [
+            'title' => 'Gestor de Tarefas',
+        ];
+
+        return view('main', $data);
     }
 
+    // =========================================================================
+    // login
+    // =========================================================================
     public function login()
     {
         $data = [
@@ -20,22 +30,12 @@ class MainController extends Controller
 
     public function login_submit()
     {
-        // fake login
-        session()->put('username', 'admin');
-        echo 'Logado';
+        // ...
     }
 
-    // main page
-    public function main()
-    {
-        $data = [
-            'title' => 'Main',
-        ];
-
-        return view('main', $data);
-    }
-
+    // =========================================================================
     // logout
+    // =========================================================================
     public function logout()
     {
         session()->forget('username');

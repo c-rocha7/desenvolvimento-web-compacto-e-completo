@@ -14,6 +14,5 @@ Route::middleware([CheckLogout::class])->group(function () {
 // in app
 Route::middleware([CheckLogin::class])->group(function () {
     Route::get('/', [MainController::class, 'index'])->name('index');
-    Route::get('/main', [MainController::class, 'main'])->name('main');
     Route::get('/logout', [MainController::class, 'logout'])->name('logout');
 });
