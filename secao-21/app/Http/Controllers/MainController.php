@@ -380,16 +380,29 @@ class MainController extends Controller
     {
         $status_collection = [
             'new' => 'Nova',
-            'in_progress' => 'Em Progresso',
+            'in_progress' => 'Em progresso',
             'cancelled' => 'Cancelada',
             'completed' => 'Concluída',
         ];
+        if (array_key_exists($status, $status_collection)) {
+            return '<span class="'.$this->_status_badge($status).'"> '.$status_collection[$status].'</span>';
+        } else {
+            return '<span class="'.$this->_status_badge('Desconhecido').'">Desconhecido</span>';
+        }
+    }
 
+    private function _status_badge($status)
+    {
+        $status_collection = [
+            'new' => 'badge bg-primary',
+            'in_progress' => 'badge bg-success',
+            'cancelled' => 'badge bg-danger',
+            'completed' => 'badge bg-secondary',
+        ];
         if (array_key_exists($status, $status_collection)) {
             return $status_collection[$status];
         } else {
-            return 'Desconhecido';
+            return 'badge bg-secondary';
         }
-
     }
 }
