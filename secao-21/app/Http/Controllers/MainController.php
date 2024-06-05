@@ -228,6 +228,50 @@ class MainController extends Controller
     }
 
     // =========================================================================
+    // delete task
+    // =========================================================================
+    public function delete_task($id)
+    {
+        try {
+            $id = Crypt::decrypt($id);
+        } catch (\Exception $e) {
+            return redirect()->route('index');
+        }
+
+        // get task data
+        $model = new TaskModel();
+        $task = $model->where('id', '=', $id)->first();
+        if (! $task) {
+            return redirect()->route('index');
+        }
+
+        $data = [
+            'title' => 'Excluir Tarefa',
+            'task' => $task,
+        ];
+
+        return view('delete_task', $data);
+    }
+
+    public function delete_task_confirm($id)
+    {
+        try {
+            $id = Crypt::decrypt($id);
+        } catch (\Exception $e) {
+            return redirect()->route('index');
+        }
+
+        // delete task
+        $model = new TaskModel();
+        $model->where('id', '=', $id)
+            ->update([
+                'deleted_at' => date('Y-m-d H:i:s'),
+            ]);
+
+        return redirect()->route('index');
+    }
+
+    // =========================================================================
     // private methods
     // =========================================================================
     private function _get_tasks()
