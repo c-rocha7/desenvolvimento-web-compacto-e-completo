@@ -44,6 +44,9 @@
                             <option value="completed"
                                 {{ old('text_task_status', $task->status) == 'completed' ? 'selected' : '' }}>Concluída</option>
                         </select>
+                        @error('text_task_status')
+                            <div class="text-warning">{{ $errors->get('text_task_status')[0] }}</div>
+                        @enderror
                     </div>
 
                     {{-- cancel or submit --}}
