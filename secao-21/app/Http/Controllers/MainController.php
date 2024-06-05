@@ -154,6 +154,29 @@ class MainController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('index');
         }
+
+        // get task data
+        $model = new TaskModel();
+        $task = $model->where('id', '=', $id)->first();
+
+        // check if task exists
+        if (empty($task)) {
+            return redirect()->route('index');
+        }
+
+        $data = [
+            'title' => 'Editar Tarefa',
+            'task' => $task,
+        ];
+
+        return view('edit_task_frm', $data);
+    }
+
+    public function edit_task_submit(Request $request)
+    {
+        echo '<pre>';
+        print_r($request->all());
+        echo '</pre>';
     }
 
     // =========================================================================
