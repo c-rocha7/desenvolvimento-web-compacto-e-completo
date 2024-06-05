@@ -272,6 +272,19 @@ class MainController extends Controller
     }
 
     // =========================================================================
+    // search & sort
+    // =========================================================================
+    public function search_submit(Request $request)
+    {
+        echo 'search';
+    }
+
+    public function sort($status)
+    {
+        echo 'sort';
+    }
+
+    // =========================================================================
     // private methods
     // =========================================================================
     private function _get_tasks()
