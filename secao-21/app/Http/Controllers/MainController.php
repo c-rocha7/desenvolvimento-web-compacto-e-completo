@@ -17,8 +17,26 @@ class MainController extends Controller
         $data = [
             'title' => 'Gestor de Tarefas',
             'datatables' => true,
-            'tasks' => $this->_get_tasks(),
         ];
+
+        // check if there is a search
+        if (session('search')) {
+            $data['search'] = session('search');
+            $data['tasks'] = $this->_get_tasks(session('tasks'));
+
+            // clear session
+            session()->forget('search');
+            session()->forget('tasks');
+        } else {
+
+            // get all tasks
+            $model = new TaskModel();
+            $tasks = $model->where('id_user_tasks', '=', session('id'))
+                ->whereNull('deleted_at')
+                ->get();
+
+            $data['tasks'] = $this->_get_tasks($tasks);
+        }
 
         return view('main', $data);
     }
@@ -276,7 +294,29 @@ class MainController extends Controller
     // =========================================================================
     public function search_submit(Request $request)
     {
-        echo 'search';
+        // get data from form
+        $search = $request->input('text_search');
+
+        // get tasks
+        $model = new TaskModel();
+        if ($search == '') {
+            $tasks = $model->where('id_user_tasks', '=', session('id'))
+                ->whereNull('deleted_at')
+                ->get();
+        } else {
+            $tasks = $model->where('id_user_tasks', '=', session('id'))
+                ->where(function ($query) use ($search) {
+                    $query->where('task_name', 'like', '%'.$search.'%')
+                        ->orWhere('task_description', 'like', '%'.$search.'%');
+                })
+                ->whereNull('deleted_at')
+                ->get();
+        }
+
+        session()->put('tasks', $tasks);
+        session()->put('search', $search);
+
+        return redirect()->route('index');
     }
 
     public function sort($status)
@@ -287,13 +327,8 @@ class MainController extends Controller
     // =========================================================================
     // private methods
     // =========================================================================
-    private function _get_tasks()
+    private function _get_tasks($tasks)
     {
-        $model = new TaskModel();
-
-        $tasks = $model->where('id_user_tasks', '=', session()->get('id'))
-            ->whereNull('deleted_at')
-            ->get();
         $collection = [];
         foreach ($tasks as $task) {
 
