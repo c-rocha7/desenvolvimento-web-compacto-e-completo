@@ -16,17 +16,18 @@
                             <div class="d-flex">
                                 <input type="text" class="form-control" name="text_search" id="text_search"
                                     placeholder="Pesquisar">
-                                <button class="btn btn-outline-primary ms-3" type="submit"><i class="bi bi-search"></i></button>
+                                <button class="btn btn-outline-primary ms-3" type="submit"><i
+                                        class="bi bi-search"></i></button>
 
                                 <span class="mx-3"></span>
 
                                 <label class="me-2 align-self-center">Estado:</label>
                                 <select name="filter" id="filter" class="form-select">
-                                    <option value="all">Todos</option>
-                                    <option value="new">Nova</option>
-                                    <option value="in_progress">Em Progresso</option>
-                                    <option value="cancelled">Cancelada</option>
-                                    <option value="completed">Concluída</option>
+                                    <option value="{{ Crypt::encrypt('all') }}" @php echo (!empty($filter) && $filter == 'all') ? 'selected' : ''; @endphp>Todos</option>
+                                    <option value="{{ Crypt::encrypt('new') }}" @php echo (!empty($filter) && $filter == 'new') ? 'selected' : ''; @endphp>Nova</option>
+                                    <option value="{{ Crypt::encrypt('in_progress') }}" @php echo (!empty($filter) && $filter == 'in_progress') ? 'selected' : ''; @endphp>Em Progresso</option>
+                                    <option value="{{ Crypt::encrypt('cancelled') }}" @php echo (!empty($filter) && $filter == 'cancelled') ? 'selected' : ''; @endphp>Cancelada</option>
+                                    <option value="{{ Crypt::encrypt('completed') }}" @php echo (!empty($filter) && $filter == 'completed') ? 'selected' : ''; @endphp>Concluída</option>
                                 </select>
                             </div>
                         </form>
@@ -75,6 +76,13 @@
                     },
                 ]
             });
+        });
+
+        let filter = document.querySelector('#filter');
+        filter.addEventListener('change', function() {
+            let value = filter.value;
+
+            window.location.href = "{{ url('/filter') }}" + '/' + value;
         });
     </script>
 @endsection

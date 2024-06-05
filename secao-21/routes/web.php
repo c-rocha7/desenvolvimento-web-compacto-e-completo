@@ -31,6 +31,6 @@ Route::middleware([CheckLogin::class])->group(function () {
     // search
     Route::post('/search_submit', [MainController::class, 'search_submit'])->name('search_submit');
 
-    // sort
-    Route::get('/sort/{sort}', [MainController::class, 'sort'])->name('sort');
+    // filter
+    Route::get('/filter/{filter}', [MainController::class, 'filter'])->name('filter');
 });
